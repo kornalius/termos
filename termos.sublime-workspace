@@ -1,0 +1,1934 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"pro",
+				"prototype"
+			],
+			[
+				"querySelec",
+				"querySelectorAll	jsDOM"
+			],
+			[
+				"inn",
+				"innerHTML"
+			],
+			[
+				"hasAttr",
+				"hasAttribute	(element-extender.coffee)"
+			],
+			[
+				"YorkCon",
+				"YorkContentEdit	(york-content-edit.coffee)"
+			],
+			[
+				"tes",
+				"tests/"
+			],
+			[
+				"keyDo",
+				"keyDownBound"
+			],
+			[
+				"font-",
+				"font-family"
+			],
+			[
+				"creat",
+				"createElement"
+			],
+			[
+				"_ob",
+				"_observe"
+			],
+			[
+				"attr",
+				"attributes"
+			],
+			[
+				"_creaE",
+				"_createElementIds"
+			],
+			[
+				"isEqu",
+				"_.isEqual	LodashLang"
+			],
+			[
+				"isAt",
+				"isAtBegin"
+			],
+			[
+				"charCode",
+				"charCodeAt	jsString"
+			],
+			[
+				"visib",
+				"visibility: visible;	Property"
+			],
+			[
+				"transition",
+				"transition-property: $1;	Property"
+			],
+			[
+				"rang",
+				"_.range	LodashUtility"
+			],
+			[
+				"Arr",
+				"_.toArray	LodashLang"
+			],
+			[
+				"uniq",
+				"_.uniqueId	LodashUtility"
+			],
+			[
+				"term",
+				"terminal-cursor.coffee"
+			],
+			[
+				"escap",
+				"_.escape	LodashString"
+			],
+			[
+				"ver",
+				"vertical-align"
+			],
+			[
+				"Eve",
+				"EventEmitter"
+			],
+			[
+				"elega",
+				"elegantSpinner"
+			],
+			[
+				"function_def",
+				"function_def_arguments"
+			],
+			[
+				"rbra",
+				"rbrace"
+			],
+			[
+				"rbr",
+				"rbrace"
+			],
+			[
+				"lbrac",
+				"lbrace"
+			],
+			[
+				"rbrac",
+				"rbracket"
+			],
+			[
+				"lbrack",
+				"lbracket"
+			],
+			[
+				"__",
+				"__dirname"
+			],
+			[
+				"readFi",
+				"fs.readFileSync"
+			],
+			[
+				"add",
+				"additive"
+			],
+			[
+				"log",
+				"log	JS - Log to console"
+			],
+			[
+				"lo",
+				"log	JS - Log to console"
+			],
+			[
+				"desc",
+				"descend"
+			],
+			[
+				"cha",
+				"charCodeAt	(ASM6502.coffee)"
+			],
+			[
+				"_hi",
+				"_hi8_"
+			],
+			[
+				"ABSO",
+				"_ABSOLUTE"
+			],
+			[
+				"ass",
+				"assembleBlock"
+			],
+			[
+				"i",
+				"img	HTML - Image"
+			],
+			[
+				"readUInt",
+				"readUInt16LE	(index.js)"
+			],
+			[
+				"read",
+				"readUInt8	(index.js)"
+			],
+			[
+				"_termb",
+				"_termbuffer"
+			],
+			[
+				"TermB",
+				"TermBufferChar"
+			],
+			[
+				"cur",
+				"cursorAt"
+			],
+			[
+				"_save",
+				"_savedStates"
+			],
+			[
+				"_layou",
+				"_layoutDOM"
+			],
+			[
+				"filter",
+				"filterManager	(WebGLRenderer.js)"
+			],
+			[
+				"_spa",
+				"_spacer_width"
+			],
+			[
+				"0x",
+				"0xFFFFFF	(app.coffee)"
+			],
+			[
+				"cache",
+				"cacheAsBitmap"
+			],
+			[
+				"_backSp",
+				"_backSpriteTexture"
+			],
+			[
+				"prototype",
+				"_.prototype.toString"
+			],
+			[
+				"oepne",
+				"openedChanged"
+			],
+			[
+				"selectedD",
+				"selectedDateChanged"
+			],
+			[
+				"selectedDate",
+				"selectedDateChanged	(app-card.html)"
+			],
+			[
+				"bower",
+				"bower_components"
+			],
+			[
+				"shou",
+				"should.js"
+			],
+			[
+				"descr",
+				"describe(description, specDefinitions)	jasmine.js"
+			],
+			[
+				"getComputedSt",
+				"getComputedStyle(e, t)	index.js"
+			],
+			[
+				"isOp",
+				"isOpened()	index.js"
+			],
+			[
+				"emplo",
+				"employee"
+			],
+			[
+				"addEve",
+				"addEventListener"
+			],
+			[
+				"addEv",
+				"addEventListener"
+			],
+			[
+				"over",
+				"overflow"
+			],
+			[
+				"core-l",
+				"core-list.html"
+			],
+			[
+				"paper-",
+				"paper-autogrow-textarea.html"
+			],
+			[
+				"paper-input",
+				"paper-input/"
+			],
+			[
+				"quali",
+				"qualificationsTraining"
+			],
+			[
+				"act",
+				"activityFeedback"
+			],
+			[
+				"emer",
+				"emergencyContact"
+			],
+			[
+				"employee-full-card-",
+				"employee-full-card-schedule.html"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"spac",
+				"white-space"
+			],
+			[
+				"empl",
+				"employee_panel"
+			],
+			[
+				"emp",
+				"employee_panel"
+			],
+			[
+				"scro",
+				"scrollLeft"
+			],
+			[
+				"off",
+				"offsetLeft"
+			],
+			[
+				"1C",
+				"1CDC"
+			],
+			[
+				"scr",
+				"scroll_area"
+			],
+			[
+				"clie",
+				"clientWidth"
+			],
+			[
+				"timel",
+				"timeline-card"
+			],
+			[
+				"time",
+				"timeline"
+			],
+			[
+				"con",
+				"console.	console.log()"
+			],
+			[
+				"brow",
+				"browser"
+			],
+			[
+				"sc",
+				"script	HTML/Element"
+			],
+			[
+				"im",
+				"img	Image - Placeholder"
+			],
+			[
+				"browser",
+				"browserify"
+			],
+			[
+				"ht",
+				"html"
+			],
+			[
+				"ele",
+				"element"
+			],
+			[
+				"tit",
+				"title"
+			],
+			[
+				"typ",
+				"typeof"
+			],
+			[
+				"inde",
+				"indexOf	jsArray"
+			],
+			[
+				"side_bar_re",
+				"side_bar_rename"
+			],
+			[
+				"Array",
+				"_.isArray	_object"
+			],
+			[
+				"isAr",
+				"_.isArray"
+			],
+			[
+				"cocos2",
+				"cocos2d-js/	Dir"
+			],
+			[
+				"ava",
+				"avatar"
+			],
+			[
+				"av",
+				"avatar"
+			],
+			[
+				"updat",
+				"update"
+			],
+			[
+				"br",
+				"browserify"
+			],
+			[
+				"a",
+				"assets/imgs/avatar	png"
+			],
+			[
+				"ex",
+				"exit"
+			],
+			[
+				"te",
+				"FlxText"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "components/base-view.coffee",
+			"settings":
+			{
+				"buffer_size": 1381,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/panel-view.coffee",
+			"settings":
+			{
+				"buffer_size": 732,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/panel-view-edit.coffee",
+			"settings":
+			{
+				"buffer_size": 479,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/webcomponent.coffee",
+			"settings":
+			{
+				"buffer_size": 15945,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "node_modules/str-scan/README.md",
+			"settings":
+			{
+				"buffer_size": 1564,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "objects/string.coffee",
+			"settings":
+			{
+				"buffer_size": 2751,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Better CoffeeScript/CoffeeScript.sublime-build",
+					""
+				],
+				[
+					"Packages/Better CoffeeScript/CoffeeScript.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/Gulp.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/Gulp.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 400.0,
+		"last_filter": "sort",
+		"selected_items":
+		[
+			[
+				"sort",
+				"Sort Lines"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"coffee",
+				"Coffee: Display Lexer Tokens"
+			],
+			[
+				"q",
+				"ChangeQuotes"
+			],
+			[
+				"reind",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"forma",
+				"Format Code"
+			],
+			[
+				"title",
+				"Convert Case: Title Case"
+			],
+			[
+				"",
+				"AlignTab"
+			],
+			[
+				"lowe",
+				"Convert Case: Lower Case"
+			],
+			[
+				"join",
+				"Edit: Join Lines"
+			],
+			[
+				"split",
+				"MultiEditUtils: Split selection"
+			],
+			[
+				"comb",
+				"Run CSScomb"
+			],
+			[
+				"inden",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"format",
+				"Format Code"
+			],
+			[
+				"edit",
+				"Project: Edit Project"
+			],
+			[
+				"backu",
+				"AutoBackups: Open file backup"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"add",
+				"Git (SideBarGit): Add & Commit & Push…"
+			],
+			[
+				"exec",
+				"Make file executable"
+			],
+			[
+				"multi",
+				"MultiEditUtils: Split selection"
+			],
+			[
+				"make",
+				"Make file executable"
+			],
+			[
+				"disa",
+				"Package Control: Disable Package"
+			],
+			[
+				"prev",
+				"Markdown HTML Preview"
+			],
+			[
+				"file",
+				"Autocomplete file name"
+			],
+			[
+				"a",
+				"AlignTab"
+			],
+			[
+				"ali",
+				"AlignTab"
+			],
+			[
+				"edi",
+				"Project: Edit Project"
+			],
+			[
+				"snip",
+				"Snippet: #!/usr/bin/env"
+			],
+			[
+				"shell",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"new",
+				"File: New File"
+			],
+			[
+				"qw",
+				"Project: Quick Switch Project…"
+			],
+			[
+				"line",
+				"Edit: Swap Line Up"
+			],
+			[
+				"align",
+				"AlignTab"
+			],
+			[
+				"back",
+				"AutoBackups: Open file backup"
+			],
+			[
+				"backup",
+				"AutoBackups: Open file backup"
+			],
+			[
+				"surr",
+				"Surround: surround selection"
+			],
+			[
+				"quo",
+				"ChangeQuotes"
+			],
+			[
+				"org",
+				"Preferences: orgmode Settings – Default"
+			],
+			[
+				"enab",
+				"Package Control: Enable Package"
+			],
+			[
+				"swap",
+				"Swap Selections"
+			],
+			[
+				"qu",
+				"ChangeQuotes"
+			],
+			[
+				"html",
+				"Snippet: html"
+			],
+			[
+				"syntax test",
+				"Set Syntax: JavaScript (Test)"
+			],
+			[
+				"previe",
+				"Markdown HTML Preview"
+			],
+			[
+				"preview",
+				"Markdown HTML Preview"
+			],
+			[
+				"git",
+				"Git: Diff Current File"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"upp",
+				"Convert Case: Upper Case"
+			],
+			[
+				"goto",
+				"Goto: Line…"
+			],
+			[
+				":e",
+				":e - Open file"
+			],
+			[
+				"open",
+				":e - Open file"
+			],
+			[
+				"low",
+				"Convert Case: Lower Case"
+			],
+			[
+				"tit",
+				"Convert Case: Title Case"
+			],
+			[
+				"titl",
+				"Convert Case: Title Case"
+			],
+			[
+				"expand",
+				"Expand Selection to Whitespace"
+			],
+			[
+				"pick",
+				"Color Picker"
+			],
+			[
+				"pi",
+				"Color Picker"
+			],
+			[
+				"swapq",
+				"BracketHighlighter: Swap Quotes"
+			],
+			[
+				"quote",
+				"BracketHighlighter: Swap Quotes"
+			],
+			[
+				"status",
+				"Git: Status"
+			],
+			[
+				"pic",
+				"Color Picker"
+			],
+			[
+				"color",
+				"Color Picker"
+			],
+			[
+				"g",
+				"Gulp"
+			],
+			[
+				"gulp",
+				"Gulp"
+			],
+			[
+				"gu",
+				"Gulp"
+			],
+			[
+				"move",
+				"Quick File Move: Move Current File"
+			],
+			[
+				"rena",
+				"ANF: Rename File"
+			],
+			[
+				"histo",
+				"Local History: Browse"
+			],
+			[
+				"gut",
+				"View: Toggle Gutter"
+			],
+			[
+				"gutt",
+				"GitGutter: Compare Against HEAD"
+			],
+			[
+				"gitadd",
+				"Git: Quick Add"
+			],
+			[
+				"commi",
+				"Git (SideBarGit): Commit All…"
+			],
+			[
+				"gitg",
+				"GitGutter: Compare Against HEAD"
+			],
+			[
+				"undo",
+				"FullUndo: Full undo"
+			],
+			[
+				"side",
+				"Side Bar: Refresh"
+			],
+			[
+				"reveal",
+				"File: Reveal"
+			],
+			[
+				"edit proje",
+				"Project: Edit Project"
+			],
+			[
+				"rename",
+				"Tag: Rename"
+			],
+			[
+				"update",
+				"Keymap Redefiner: Update Keymaps"
+			],
+			[
+				"json",
+				"Set Syntax: JSON"
+			],
+			[
+				"colo",
+				"Color Picker"
+			],
+			[
+				"emmet",
+				"Emmet: Balance (inward)"
+			],
+			[
+				"lorem",
+				"Snippet: lorem - One sentence"
+			],
+			[
+				"lo",
+				"Snippet: lorem - Short paragraph"
+			],
+			[
+				"insp",
+				"Web Inspector"
+			],
+			[
+				"web",
+				"Web Inspector"
+			],
+			[
+				"keys",
+				"Preferences: Key Bindings - Default"
+			],
+			[
+				"command",
+				"Preferences: Commands - Default"
+			],
+			[
+				"dupl",
+				"File: Duplicate"
+			],
+			[
+				"lint",
+				"Preferences: SublimeLinter Settings – Default"
+			],
+			[
+				"intel",
+				"SublimeCodeIntel: Reset"
+			],
+			[
+				"glue",
+				"Glue - Launch"
+			],
+			[
+				"delete",
+				"ANF: Delete File"
+			],
+			[
+				"shel",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"repl",
+				"SublimeREPL: Shell"
+			],
+			[
+				"termin",
+				"Open in terminal"
+			],
+			[
+				"nav",
+				"File Navigator: Open"
+			],
+			[
+				"brows",
+				"Browse Mode..."
+			],
+			[
+				"run",
+				"Run"
+			],
+			[
+				"theme",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"csub",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"cosub",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"colors",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"upda",
+				"Keymap Redefiner: Update Keymaps"
+			],
+			[
+				"node",
+				"SublimeREPL: Node"
+			],
+			[
+				"col",
+				"Color Picker"
+			],
+			[
+				"short",
+				"TabsShortcuts: Key Bindings – Default"
+			],
+			[
+				"navi",
+				"File Navigator: Open"
+			],
+			[
+				"push",
+				"Git: Push Current Branch"
+			],
+			[
+				"commit",
+				"Git: Commit"
+			],
+			[
+				"gul",
+				"Gulp"
+			],
+			[
+				"cake",
+				"Coffee: Run Cake Task"
+			],
+			[
+				"sublimegit",
+				"SublimeGit: Add License"
+			],
+			[
+				"remote",
+				"Git (SideBarGit): Remote add…"
+			],
+			[
+				"coff",
+				"Coffee: Run Script / Selection"
+			],
+			[
+				"npmi",
+				"npm: Install Package"
+			],
+			[
+				"Snippet: ",
+				"Snippets: Open snippet"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"mark",
+				"Set Syntax: Markdown"
+			],
+			[
+				"comm",
+				"DocBlockr: Reparse comment block"
+			],
+			[
+				"comme",
+				"Toggle Comment"
+			],
+			[
+				"doc",
+				"DocBlockr: Decorate line comment"
+			],
+			[
+				"projec",
+				"Project: Edit"
+			],
+			[
+				"stat",
+				"Git: Status"
+			],
+			[
+				"n",
+				"npm: Search Packages"
+			],
+			[
+				"npm",
+				"npm: Install Package"
+			],
+			[
+				"gitp",
+				"Git: Push"
+			],
+			[
+				"igno",
+				"Git: Update Project Ignored Files"
+			]
+		],
+		"width": 754.0
+	},
+	"console":
+	{
+		"height": 270.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"coffee",
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read()) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Volumes/hd2/sources/termos",
+		"/Volumes/hd2/sources/termos/app",
+		"/Volumes/hd2/sources/termos/components",
+		"/Volumes/hd2/sources/termos/node_modules",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/dom",
+		"/Volumes/hd2/sources/termos/node_modules/starkjs-underscore",
+		"/Volumes/hd2/sources/termos/node_modules/underscore.array/src",
+		"/Volumes/hd2/sources/termos/objects",
+		"/Volumes/hd2/sources/termos/tests",
+		"/Volumes/hd2/sources/termos/user"
+	],
+	"file_history":
+	[
+		"/Volumes/hd2/sources/termos/css/border.css",
+		"/Volumes/hd2/sources/termos/css/cursor.css",
+		"/Volumes/hd2/sources/termos/css/colors.css",
+		"/Volumes/hd2/sources/termos/node_modules/term-css/Readme.md",
+		"/Volumes/hd2/sources/termos/node_modules/table/README.md",
+		"/Volumes/hd2/sources/termos/node_modules/usage/README.md",
+		"/Volumes/hd2/sources/termos/objects/array.coffee",
+		"/Volumes/hd2/sources/termos/node_modules/underscore-contrib/underscore.util.strings.js",
+		"/Volumes/hd2/sources/termos/node_modules/underscore-contrib/underscore.util.operators.js",
+		"/Volumes/hd2/sources/termos/node_modules/underscore-contrib/underscore.object.selectors.js",
+		"/Volumes/hd2/sources/termos/node_modules/underscore-contrib/underscore.object.builders.js",
+		"/Volumes/hd2/sources/termos/node_modules/underscore-contrib/underscore.function.combinators.js",
+		"/Volumes/hd2/sources/termos/node_modules/underscore-contrib/underscore.array.builders.js",
+		"/Volumes/hd2/sources/termos/node_modules/underscore-contrib/underscore.array.selectors.js",
+		"/Volumes/hd2/sources/termos/app/app.coffee",
+		"/Volumes/hd2/sources/termos/node_modules/underscore-contrib/underscore.function.arity.js",
+		"/Volumes/hd2/sources/termos/node_modules/underscore.array/src/underscore.array.coffee",
+		"/Volumes/hd2/sources/termos/objects/number.coffee",
+		"/Volumes/hd2/sources/termos/node_modules/numeral/tests/numeral/format.js",
+		"/Volumes/hd2/sources/termos/node_modules/numeral/numeral.js",
+		"/Volumes/hd2/sources/termos/node_modules/numeral/tests/numeral/manipulate.js",
+		"/Volumes/hd2/sources/termos/node_modules/numeral/README.md",
+		"/Volumes/hd2/sources/termos/objects/index.coffee",
+		"/Volumes/hd2/sources/termos/objects/flags.coffee",
+		"/Volumes/hd2/sources/termos/node_modules/underscore.number/underscore.number.js",
+		"/Volumes/hd2/sources/termos/objects/boolean.coffee",
+		"/Volumes/hd2/sources/termos/node_modules/underscore.array/underscore.array.js",
+		"/Volumes/hd2/sources/termos/objects/string.coffee",
+		"/Volumes/hd2/sources/termos/objects/color.coffee",
+		"/Volumes/hd2/sources/termos/objects/object.coffee",
+		"/Volumes/hd2/sources/termos/node_modules/archy/readme.markdown",
+		"/Volumes/hd2/sources/termos/objects/tests/array.test.coffee",
+		"/Volumes/hd2/sources/termos/node_modules/typo/README.md",
+		"/Volumes/hd2/sources/termos/node_modules/timmy/README.md",
+		"/Volumes/hd2/sources/termos/node_modules/nest-object/README.md",
+		"/Volumes/hd2/sources/termos/node_modules/levn/README.md",
+		"/Volumes/hd2/sources/termos/objects/tree.coffee",
+		"/Volumes/hd2/sources/termos/tests/panel.coffee",
+		"/Volumes/hd2/sources/termos/tests/ces.coffee",
+		"/Volumes/hd2/sources/termos/tests/component.coffee",
+		"/Volumes/hd2/sources/termos/app/element-extender.coffee",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/dom/html.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/dom/data.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/type.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/baseClass.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/array.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/app.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/selector/closest.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/css.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/selector/extra.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/dom/extra.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/dom/contains.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/dom/class.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/amd/dom/attr.js",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/README.md",
+		"/Volumes/hd2/sources/termos/index.html",
+		"/Volumes/hd2/sources/termos/css/sizing.css",
+		"/Volumes/hd2/sources/termos/css/typo.css",
+		"/Volumes/hd2/sources/termos/css/button.css",
+		"/Volumes/hd2/sources/termos/css/table.css",
+		"/Volumes/hd2/sources/termos/css/field.css",
+		"/Volumes/hd2/sources/termos/css/list.css",
+		"/Volumes/hd2/sources/termos/css/highlight.css",
+		"/Volumes/hd2/sources/termos/css/progress.css",
+		"/Volumes/hd2/sources/termos/css/range.css",
+		"/Volumes/hd2/sources/termos/css/flex.css",
+		"/Volumes/hd2/sources/termos/css/grid.css",
+		"/Volumes/hd2/sources/termos/css/display.css",
+		"/Volumes/hd2/sources/termos/css/spacing.css",
+		"/Volumes/hd2/sources/termos/css/image.css",
+		"/Volumes/hd2/sources/termos/css/position.css",
+		"/Volumes/hd2/sources/termos/css/helpers.css",
+		"/Volumes/hd2/sources/termos/css/theme.css",
+		"/Volumes/hd2/sources/termos/css/index.css",
+		"/Volumes/hd2/sources/termos/css/basscss.css",
+		"/Volumes/hd2/sources/termos/css/depth.css",
+		"/Volumes/hd2/sources/termos/components/base-view.coffee",
+		"/Volumes/hd2/sources/termos/components/panel-view-edit.coffee",
+		"/Volumes/hd2/sources/termos/app/init.coffee",
+		"/Volumes/hd2/sources/termos/app/index.js",
+		"/Volumes/hd2/sources/termos/main.coffee",
+		"/Volumes/hd2/sources/termos/index.js",
+		"/Volumes/hd2/sources/termos/data.coffee",
+		"/Volumes/hd2/sources/termos/user/init.coffee",
+		"/Volumes/hd2/sources/termos/tests/content.coffee",
+		"/Volumes/hd2/sources/termos/components/york-content-edit.coffee",
+		"/Volumes/hd2/sources/termos/components/york-content.coffee",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/commonjs/dom/html.js",
+		"/Volumes/hd2/sources/termos/node_modules/underscore-plus/lib/underscore-plus.js",
+		"/Volumes/hd2/sources/termos/css/fonts.css",
+		"/Users/alain/ziptemp/BetterZip Temporary Folder.nqGchI/BetterZip Temporary Folder.mFubos/style.css",
+		"/Volumes/hd2/sources/termos/app/init.css",
+		"/Volumes/hd2/sources/termos/app/html_terminal/terminal.css",
+		"/Volumes/hd2/sources/termos/app/html_terminal/fonts.css",
+		"/Volumes/hd2/sources/termos/app/butterfly_terminal/term.css",
+		"/Volumes/hd2/sources/termos/app/butterfly_terminal/icons.coffee",
+		"/Volumes/hd2/sources/termos/index.css",
+		"/Volumes/hd2/sources/termos/user/init.css",
+		"/Volumes/hd2/sources/termos/fonts/ico.ttf",
+		"/Volumes/hd2/sources/termos/css/shadows.css",
+		"/Volumes/hd2/sources/termos/css/basscss.min.css",
+		"/Volumes/hd2/sources/termos/node_modules/basscss/package.json",
+		"/Volumes/hd2/sources/termos/node_modules/basscss/css/basscss.min.css",
+		"/Volumes/hd2/sources/termos/node_modules/basscss/css/basscss.css",
+		"/Volumes/hd2/sources/termos/node_modules/basscss/scripts/css.js",
+		"/Volumes/hd2/sources/termos/node_modules/basscss/index.js",
+		"/Volumes/hd2/sources/termos/node_modules/basscss/scripts/s3.js",
+		"/Volumes/hd2/sources/termos/node_modules/basscss/README.md",
+		"/Volumes/hd2/sources/termos/node_modules/domtastic/domtastic.js",
+		"/Volumes/hd2/sources/termos/node_modules/basscss-color-progress/index.css",
+		"/Volumes/hd2/sources/termos/node_modules/basscss-progress/index.css",
+		"/Volumes/hd2/sources/termos/node_modules/basscss-progress/package.json",
+		"/Volumes/hd2/sources/termos/node_modules/basscss-progress/README.md",
+		"/Volumes/hd2/sources/termos/app/webcomponent.coffee",
+		"/Volumes/hd2/sources/termos/node_modules/coffeescript-mixins/README.md",
+		"/Volumes/hd2/sources/termos/node_modules/tiny-ecs/README.md",
+		"/Volumes/hd2/sources/termos/node_modules/tiny-ecs/lib/Event.js",
+		"/Volumes/hd2/sources/termos/node_modules/bean/src/bean.js",
+		"/Volumes/hd2/sources/termos/app/terminal/terminal.coffee",
+		"/Volumes/hd2/sources/termos/app/terminal/terminal-char.coffee",
+		"/Volumes/hd2/sources/termos/app/terminal/terminal-input.coffee",
+		"/Volumes/hd2/sources/termos/app/terminal/terminal-line.coffee",
+		"/Volumes/hd2/sources/termos/app/terminal/terminal-cursor.coffee",
+		"/Volumes/hd2/sources/termos/app/terminal/terminal.css",
+		"/Volumes/hd2/sources/termos/node_modules/underscore.number/src/underscore.number.coffee",
+		"/Volumes/hd2/sources/termos/app/terminal/terminal-line.css",
+		"/Volumes/hd2/sources/termos/app/terminal/terminal-input.css",
+		"/Volumes/hd2/sources/termos/app/terminal/terminal-cursor.css"
+	],
+	"find":
+	{
+		"height": 36.0
+	},
+	"find_in_files":
+	{
+		"height": 112.0,
+		"where_history":
+		[
+			"/Volumes/hd2/sources/termos,-node_modules/,-bower_components/,-jspm_packages/,-public/,-lib/",
+			"/Volumes/hd2/sources/swim,-node_modules/,-bower_components/,-jspm_packages/,-public/,-lib/",
+			"/Volumes/hd2/sources/swim,-bower_components/,-jspm_packages/,-public/,-lib/",
+			"/Volumes/hd2/sources/swim,-node_modules/,-bower_components/,-jspm_packages/,-public/,-lib/",
+			"/Volumes/hd2/sources/lsi/garda/GSKED/,-node_modules/,-bower_components/,-jspm_packages/,-public/,-lib/",
+			"/Volumes/hd2/sources/lsi/garda/GSKED/,-node_modules/,-bower_components/,-jspm_packages/,-public/",
+			"/Volumes/hd2/sources/lsi/garda/GSKED/,-node_modules/,-bower_components/,-jspm_packages/",
+			"/Volumes/hd2/sources/lsi/garda/GSKED/,-node_modules/,-bower_components/,-jspm_packages",
+			"/Volumes/MacintoshHD/Users/alain/sources/Subsistence/app",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			": ",
+			"function",
+			"pred",
+			"add",
+			"@valueOf()",
+			"target",
+			"base",
+			"n",
+			"base",
+			"n",
+			"num",
+			" @",
+			"_.number",
+			"dot",
+			"bos",
+			"$.create",
+			"wc",
+			"this",
+			"cname",
+			"@prototype",
+			"classes",
+			"@__proto__",
+			"Class",
+			"className",
+			"function",
+			"attr",
+			"a",
+			"attrs",
+			"extend",
+			"events",
+			"scroll",
+			"wrap",
+			"pre",
+			"overflow",
+			"inline-flex",
+			"hidden",
+			"flex",
+			"$",
+			"'$",
+			"'$'",
+			"BaseView",
+			"PanelView",
+			"TestContent",
+			"york",
+			"YorkContentEdit",
+			"YorkPanel",
+			"YorkContent",
+			"getEvents",
+			"html",
+			"@render",
+			"debugger",
+			"name",
+			"_componentName",
+			"events",
+			"_attrsToEvents",
+			"events",
+			"YorkContent",
+			"scroll",
+			"classes",
+			"a",
+			"attrs",
+			"\n  ",
+			"MyYorkContent",
+			"font-",
+			"lg-",
+			"success",
+			"radius",
+			"display: none",
+			"text",
+			"list",
+			"{",
+			"      {",
+			"select",
+			"./fonts",
+			"createAttrs",
+			"debugg",
+			"safeSt",
+			"parseAttrs",
+			"dark",
+			"createElement",
+			"z-depth",
+			"@css",
+			"@props",
+			"a",
+			"@attrs",
+			"terminal",
+			"attrs",
+			"mixins",
+			"pouch",
+			"CSON",
+			"Swim",
+			": ",
+			"cursor",
+			"floor",
+			"ceil",
+			"cols",
+			"adjust",
+			"Started",
+			"Ended",
+			"cursor",
+			"enabled",
+			"inputMode",
+			"add",
+			"input",
+			"wordAt",
+			"rows",
+			"charHeight",
+			"charWidth",
+			"cols",
+			"charWidth",
+			"rows",
+			"cols",
+			"charWidth",
+			"rows",
+			"cols",
+			"::accessor '",
+			"trunc",
+			"_el",
+			"_options",
+			"_terminal",
+			"_currentSteps",
+			"_noHistory",
+			"_redoStack",
+			"_undoStack",
+			"_historyPtr",
+			"_history",
+			"_options",
+			"_terminal"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\\}\\n\\n$1",
+			"  ",
+			"'$1'",
+			"",
+			"\\n",
+			"\"\\n",
+			"\\n",
+			"",
+			"0x",
+			"\\n",
+			",",
+			"{\n",
+			"window.app.log",
+			"\"",
+			"\":",
+			"\", \"",
+			"",
+			"@",
+			"game.",
+			", \"$1\": ",
+			"\\\"$1\\\"",
+			"\"",
+			"www."
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 5,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "components/base-view.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1381,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								448,
+								448
+							]
+						],
+						"settings":
+						{
+							"apply_syntax_touched": true,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"tabs_extra_last_activated": 1448988755.67,
+							"tabs_extra_last_activated_sheet_index": 1,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 173.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "components/panel-view.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 732,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								290,
+								290
+							]
+						],
+						"settings":
+						{
+							"apply_syntax_touched": true,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"tabs_extra_last_activated": 1448988754.6,
+							"tabs_extra_last_activated_sheet_index": 2,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "components/panel-view-edit.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 479,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								242,
+								242
+							]
+						],
+						"settings":
+						{
+							"apply_syntax_touched": true,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"tabs_extra_last_activated": 1448988750.11,
+							"tabs_extra_last_activated_sheet_index": 3,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/webcomponent.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 15945,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14474,
+								14474
+							]
+						],
+						"settings":
+						{
+							"apply_syntax_touched": true,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"tabs_extra_last_activated": 1449003193.74,
+							"tabs_extra_last_activated_sheet_index": 3,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 13831.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "node_modules/str-scan/README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1564,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								196,
+								196
+							]
+						],
+						"settings":
+						{
+							"apply_syntax_touched": true,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax",
+							"tabs_extra_last_activated": 1449003309.26,
+							"tabs_extra_last_activated_sheet_index": 4,
+							"tabs_extra_spawned": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 345.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "objects/string.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2751,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								624,
+								624
+							]
+						],
+						"settings":
+						{
+							"apply_syntax_touched": true,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tabs_extra_last_activated": 1449166702.03,
+							"tabs_extra_last_activated_sheet_index": 5,
+							"tabs_extra_spawned": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 35.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 274.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 118.0
+	},
+	"output.git-commit":
+	{
+		"height": 118.0
+	},
+	"output.git-push":
+	{
+		"height": 118.0
+	},
+	"output.gulp_output":
+	{
+		"height": 198.0
+	},
+	"output.settings_documentation_panel":
+	{
+		"height": 142.0
+	},
+	"output.textarea":
+	{
+		"height": 118.0
+	},
+	"pinned_build_system": "",
+	"project": "termos.sublime-project",
+	"replace":
+	{
+		"height": 74.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"undernume",
+				"node_modules/underscore.number/underscore.number.js"
+			],
+			[
+				"underscarray",
+				"node_modules/underscore.array/underscore.array.js"
+			],
+			[
+				"lodash",
+				"bower_components/lodash/lodash.js"
+			],
+			[
+				"polydate",
+				"bower_components/polymer-date-picker/polymer-date-picker-positioning.html"
+			],
+			[
+				"polydatecale",
+				"bower_components/polymer-date-picker/polymer-date-picker-calendar.html"
+			],
+			[
+				"appc",
+				"app/app-card.html"
+			],
+			[
+				"app",
+				"app/app-left-panel.html"
+			],
+			[
+				"date",
+				"gsked/date-card.html"
+			],
+			[
+				"autogrow",
+				"bower_components/paper-input/paper-autogrow-textarea.html"
+			],
+			[
+				"autog",
+				"bower_components/paper-input/test/paper-autogrow-textarea.html"
+			],
+			[
+				"autogro",
+				"bower_components/paper-input/paper-autogrow-textarea.html"
+			],
+			[
+				"gulp",
+				"Gulpfile.js"
+			],
+			[
+				"index",
+				"index.html"
+			],
+			[
+				"inde",
+				"index.html"
+			],
+			[
+				"page",
+				"bower_components/core-pages/core-pages.html"
+			],
+			[
+				"core-anim",
+				"bower_components/core-animated-pages/core-animated-pages.html"
+			],
+			[
+				"selecto",
+				"bower_components/core-selector/core-selector.html"
+			],
+			[
+				"tabs",
+				"bower_components/paper-tabs/paper-tabs.html"
+			],
+			[
+				"panel",
+				"elements/slide-panel.html"
+			],
+			[
+				"panels",
+				"elements/slide-panels.html"
+			],
+			[
+				"pages",
+				"bower_components/core-animated-pages/core-animated-pages.html"
+			],
+			[
+				"papto",
+				"bower_components/paper-toast/paper-toast.html"
+			],
+			[
+				"overl",
+				"bower_components/core-overlay/core-overlay.html"
+			],
+			[
+				"transi",
+				"bower_components/core-transition/core-transition-css.html"
+			],
+			[
+				"toas",
+				"elements/toast-card.html"
+			],
+			[
+				"papt",
+				"bower_components/paper-toast/paper-toast.html"
+			],
+			[
+				"menu",
+				"bower_components/core-menu/core-menu.html"
+			],
+			[
+				"dropd",
+				"bower_components/core-dropdown/core-dropdown-base.html"
+			],
+			[
+				"papermenu",
+				"bower_components/paper-dropdown-menu/paper-dropdown-menu.html"
+			],
+			[
+				"emplsear",
+				"app/employee/employee-search-card.html"
+			],
+			[
+				"coreove",
+				"bower_components/core-overlay/core-overlay.html"
+			],
+			[
+				"dialog",
+				"bower_components/paper-dialog/paper-dialog-base.html"
+			],
+			[
+				"paperdia",
+				"bower_components/paper-dialog/paper-dialog.html"
+			],
+			[
+				"base-wind",
+				"elements/base-window.html"
+			],
+			[
+				"focus",
+				"bower_components/core-focusable/core-focusable.js"
+			],
+			[
+				"iconbut",
+				"bower_components/core-icon-button/core-icon-button.html"
+			],
+			[
+				"overla",
+				"bower_components/core-overlay/core-overlay.html"
+			],
+			[
+				"dropdown",
+				"bower_components/core-dropdown/core-dropdown.html"
+			],
+			[
+				"drop",
+				"bower_components/core-dropdown/core-dropdown.html"
+			],
+			[
+				"dropdo",
+				"bower_components/core-dropdown/core-dropdown.html"
+			],
+			[
+				"paperdrop",
+				"bower_components/paper-dropdown/paper-dropdown.html"
+			],
+			[
+				"coreselec",
+				"bower_components/core-selector/core-selector.html"
+			],
+			[
+				"coremenu",
+				"bower_components/core-menu/core-menu.html"
+			],
+			[
+				"input",
+				"elements/input-card.html"
+			],
+			[
+				"vulcan",
+				"node_modules/gulp-vulcanize/node_modules/vulcanize/bin/vulcanize"
+			],
+			[
+				"polymer",
+				"bower_components/polymer/polymer.html"
+			],
+			[
+				"dargs",
+				"node_modules/gulp-ruby-sass/node_modules/dargs/dargs.js"
+			],
+			[
+				"phaser.game",
+				"phaser/docs/Phaser.Game.html"
+			],
+			[
+				"gulp-copy",
+				"node_modules/gulp-copy/index.js"
+			],
+			[
+				"gulp-load",
+				"node_modules/gulp-load/index.js"
+			],
+			[
+				"chalk",
+				"node_modules/chalk/index.js"
+			],
+			[
+				"shell",
+				"node_modules/shelljs/shell.js"
+			],
+			[
+				"rea",
+				"README.md"
+			],
+			[
+				"commander",
+				"node_modules/commander/Readme.md"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"/Volumes/MacintoshHD/Users/alain/sources/Subsistence/Subsistence.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 400.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"hello",
+				"HelloWorldLayer"
+			]
+		],
+		"width": 664.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 430.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

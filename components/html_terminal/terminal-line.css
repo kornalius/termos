@@ -1,0 +1,13 @@
+.terminal-line {
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  white-space: pre;
+  overflow: none;
+  outline: none;
+}
+
+.terminal-line .selection {
+  filter: saturate(2);
+}

@@ -1,0 +1,1 @@
+window.Flags = require('flagjs')

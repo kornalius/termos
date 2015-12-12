@@ -1,0 +1,271 @@
+.bg-color-0 {
+  background-color: #2e3436;
+}
+
+.bg-color-0.reverse-video {
+  color: #2e3436 !important;
+}
+
+.fg-color-0 {
+  color: #2e3436;
+  text-shadow: 0 0 6px rgba(46, 52, 54, .5);
+}
+
+.fg-color-0.reverse-video {
+  background-color: #2e3436 !important;
+}
+
+.bg-color-1 {
+  background-color: #cc0000;
+}
+
+.bg-color-1.reverse-video {
+  color: #cc0000 !important;
+}
+
+.fg-color-1, .nbsp {
+  color: #cc0000;
+  text-shadow: 0 0 6px rgba(204, 0, 0, .5);
+}
+
+.fg-color-1.reverse-video, .reverse-video.nbsp {
+  background-color: #cc0000 !important;
+}
+
+.bg-color-2 {
+  background-color: #4e9a06;
+}
+
+.bg-color-2.reverse-video {
+  color: #4e9a06 !important;
+}
+
+.fg-color-2 {
+  color: #4e9a06;
+  text-shadow: 0 0 6px rgba(78, 154, 6, .5);
+}
+
+.fg-color-2.reverse-video {
+  background-color: #4e9a06 !important;
+}
+
+.bg-color-3 {
+  background-color: #c4a000;
+}
+
+.bg-color-3.reverse-video {
+  color: #c4a000 !important;
+}
+
+.fg-color-3 {
+  color: #c4a000;
+  text-shadow: 0 0 6px rgba(196, 160, 0, .5);
+}
+
+.fg-color-3.reverse-video {
+  background-color: #c4a000 !important;
+}
+
+.bg-color-4 {
+  background-color: #3465a4;
+}
+
+.bg-color-4.reverse-video {
+  color: #3465a4 !important;
+}
+
+.fg-color-4 {
+  color: #3465a4;
+  text-shadow: 0 0 6px rgba(52, 101, 164, .5);
+}
+
+.fg-color-4.reverse-video {
+  background-color: #3465a4 !important;
+}
+
+.bg-color-5 {
+  background-color: #75507b;
+}
+
+.bg-color-5.reverse-video {
+  color: #75507b !important;
+}
+
+.fg-color-5 {
+  color: #75507b;
+  text-shadow: 0 0 6px rgba(117, 80, 123, .5);
+}
+
+.fg-color-5.reverse-video {
+  background-color: #75507b !important;
+}
+
+.bg-color-6 {
+  background-color: #06989a;
+}
+
+.bg-color-6.reverse-video {
+  color: #06989a !important;
+}
+
+.fg-color-6 {
+  color: #06989a;
+  text-shadow: 0 0 6px rgba(6, 152, 154, .5);
+}
+
+.fg-color-6.reverse-video {
+  background-color: #06989a !important;
+}
+
+.bg-color-7 {
+  background-color: #d3d7cf;
+}
+
+.bg-color-7.reverse-video {
+  color: #d3d7cf !important;
+}
+
+.fg-color-7 {
+  color: #d3d7cf;
+  text-shadow: 0 0 6px rgba(211, 215, 207, .5);
+}
+
+.fg-color-7.reverse-video {
+  background-color: #d3d7cf !important;
+}
+
+.bg-color-8 {
+  background-color: #555753;
+}
+
+.bg-color-8.reverse-video {
+  color: #555753 !important;
+}
+
+.fg-color-8 {
+  color: #555753;
+  text-shadow: 0 0 6px rgba(85, 87, 83, .5);
+}
+
+.fg-color-8.reverse-video {
+  background-color: #555753 !important;
+}
+
+.bg-color-9 {
+  background-color: #ef2929;
+}
+
+.bg-color-9.reverse-video {
+  color: #ef2929 !important;
+}
+
+.fg-color-9 {
+  color: #ef2929;
+  text-shadow: 0 0 6px rgba(239, 41, 41, .5);
+}
+
+.fg-color-9.reverse-video {
+  background-color: #ef2929 !important;
+}
+
+.bg-color-10 {
+  background-color: #8ae234;
+}
+
+.bg-color-10.reverse-video {
+  color: #8ae234 !important;
+}
+
+.fg-color-10 {
+  color: #8ae234;
+  text-shadow: 0 0 6px rgba(138, 226, 52, .5);
+}
+
+.fg-color-10.reverse-video {
+  background-color: #8ae234 !important;
+}
+
+.bg-color-11 {
+  background-color: #fce94f;
+}
+
+.bg-color-11.reverse-video {
+  color: #fce94f !important;
+}
+
+.fg-color-11 {
+  color: #fce94f;
+  text-shadow: 0 0 6px rgba(252, 233, 79, .5);
+}
+
+.fg-color-11.reverse-video {
+  background-color: #fce94f !important;
+}
+
+.bg-color-12 {
+  background-color: #729fcf;
+}
+
+.bg-color-12.reverse-video {
+  color: #729fcf !important;
+}
+
+.fg-color-12 {
+  color: #729fcf;
+  text-shadow: 0 0 6px rgba(114, 159, 207, .5);
+}
+
+.fg-color-12.reverse-video {
+  background-color: #729fcf !important;
+}
+
+.bg-color-13 {
+  background-color: #ad7fa8;
+}
+
+.bg-color-13.reverse-video {
+  color: #ad7fa8 !important;
+}
+
+.fg-color-13 {
+  color: #ad7fa8;
+  text-shadow: 0 0 6px rgba(173, 127, 168, .5);
+}
+
+.fg-color-13.reverse-video {
+  background-color: #ad7fa8 !important;
+}
+
+.bg-color-14 {
+  background-color: #34e2e2;
+}
+
+.bg-color-14.reverse-video {
+  color: #34e2e2 !important;
+}
+
+.fg-color-14 {
+  color: #34e2e2;
+  text-shadow: 0 0 6px rgba(52, 226, 226, .5);
+}
+
+.fg-color-14.reverse-video {
+  background-color: #34e2e2 !important;
+}
+
+.bg-color-15 {
+  background-color: #eeeeec;
+}
+
+.bg-color-15.reverse-video {
+  color: #eeeeec !important;
+}
+
+.fg-color-15 {
+  color: #eeeeec;
+  text-shadow: 0 0 6px rgba(238, 238, 236, .5);
+}
+
+.fg-color-15.reverse-video {
+  background-color: #eeeeec !important;
+}

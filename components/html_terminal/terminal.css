@@ -1,0 +1,93 @@
+.terminal {
+  transition: 300ms;
+  transform-origin: bottom;
+  font-family: 'SourceCodePro' monospace;
+  font-variant-position: normal;
+  line-height: 1.3em;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  background-color: #110f13;
+  color: #f4ead5;
+  overflow-x: none;
+  overflow-y: scroll;
+  outline: none;
+  white-space: nowrap;
+}
+
+.terminal::-webkit-scrollbar {
+  background: #110f13;
+  width: .75em;
+}
+
+.terminal::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.terminal::-webkit-scrollbar-resizer {
+  background: transparent;
+}
+
+.terminal::-webkit-scrollbar-thumb {
+  background: rgba(244, 234, 213, .1);
+}
+
+.terminal::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 234, 213, .15);
+}
+
+.terminal::-webkit-scrollbar-thumb:horizontal {
+  display: none;
+}
+
+.terminal::-webkit-scrollbar-track:horizontal {
+  display: none;
+}
+
+.terminal-metric {
+  position: fixed;
+  left: -1000px;
+  top: -1000px;
+}
+
+.terminal .bold {
+  font-weight: bold;
+}
+
+.terminal .italic {
+  font-style: italic;
+}
+
+.terminal .underline {
+  text-decoration: underline;
+}
+
+.terminal .blink {
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.terminal .invisible {
+  visibility: hidden;
+}
+
+.terminal .selection {
+  filter: saturate(2);
+}

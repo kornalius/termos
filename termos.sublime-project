@@ -1,0 +1,15 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				".gitignore",
+				"LICENSE",
+				"termos.sublime-project",
+				"termos.sublime-workspace"
+			],
+			"path": "."
+		}
+	]
+}

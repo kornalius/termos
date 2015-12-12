@@ -1,0 +1,52 @@
+@font-face {
+  font-family: 'SourceCodePro';
+  src: url('./fonts/SourceCodePro-ExtraLight.otf') format('woff');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'SourceCodePro';
+  src: url('./fonts/SourceCodePro-Light.otf') format('woff');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'SourceCodePro';
+  src: url('./fonts/SourceCodePro-Regular.otf') format('woff');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'SourceCodePro';
+  src: url('./fonts/SourceCodePro-Medium.otf') format('woff');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'SourceCodePro';
+  src: url('./fonts/SourceCodePro-Semibold.otf') format('woff');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'SourceCodePro';
+  src: url('./fonts/SourceCodePro-Bold.otf') format('woff');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'SourceCodePro';
+  src: url('./fonts/SourceCodePro-Black.otf') format('woff');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'Icons';
+  src: url('./fonts/ico.ttf');
+}
+
+.font1 {
+  font-family: 'Icons';
+  font-size: 19px;
+  vertical-align: middle;
+}
