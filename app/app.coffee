@@ -13,6 +13,6 @@ console.log "App path: #{TOS.dirs.app}"
 console.log "User path: #{TOS.dirs.user}"
 console.log "Home path: #{TOS.dirs.home}"
 
-TOS.ipc.send('createWindow', { title: 'Tests', run: '../tests/index.coffee', devTools: true })
+TOS.ipc.send('createWindow', { title: 'Tests', run: '../tests/index', devTools: true })
 
-TOS.ipc.send('createWindow', { title: 'Terminal', run: '../tests/terminal.coffee', devTools: true, maximize: true })
+TOS.ipc.send('createWindow', { title: 'Terminal', run: '../tests/terminal', devTools: true, maximize: true })

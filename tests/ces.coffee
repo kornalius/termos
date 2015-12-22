@@ -1,25 +1,32 @@
+{ WebComponent, Plugin } = TOS
 { div, span } = TOS.html
 
 
-class CSSEntity
+class CSSEntity extends Plugin
 
   css:
     ':host':
       color: 'blue'
 
   props:
-    prop1: 23849
-    prop3: 238
+    prop1: 567
+    prop3: 8792
 
 
-class PropsEntity
+class PropsEntity extends Plugin
 
   props:
     prop1: 23849
     prop3: 238
 
+  attached: ->
+    console.log "attached PropsEntity", @
 
-class AttrsEntity
+  render: (content) ->
+    div "render PropsEntity"
+
+
+class AttrsEntity extends Plugin
 
   attrs:
     attr1: "Nice Job"
@@ -29,14 +36,11 @@ class AttrsEntity
   attached: ->
     console.log "attached AttrsEntity", @
 
+  render: (content) ->
+    div "render AttrsEntity"
 
-class MyComponent2 extends TOS.WebComponent
 
-  created: ->
-    @include PropsEntity::
-    @include AttrsEntity::
-    @include CSSEntity::
-    super
+class MyComponent2 extends WebComponent
 
   css:
     ':host':
@@ -46,18 +50,29 @@ class MyComponent2 extends TOS.WebComponent
 
   attrs:
     attr1: true
-    attr2: true
+    attr2: "Some kind of value"
     attr3: "Another one"
 
   props:
     prop1: 124
     prop2: 543
 
+  created: ->
+    # @async ( => PropsEntity.uninstall(@__proto__.constructor); debugger; @_createAttrs(); @invalidate(); ), 2000
+
+  attached: ->
+    console.log "attached MyComponent2", @
+
   render: (content) ->
-    super div [
+    div [
       content
-      span $(@).attr('attr2')
+      span @attr 'attr2'
     ]
+
+  PropsEntity.install @
+  AttrsEntity.install @
+  CSSEntity.install @
+
 
 MyComponent2.register()
 

@@ -1,9 +1,16 @@
 
-require('./base-view.coffee')
+require('./theme')
 
-require('./panel-view.coffee')
-require('./panel-view-edit.coffee')
+require('./base-view')
 
-require('./window-view.coffee')
+require('./button-view')
 
-require('./terminal-view.coffee')
+require('./text-caret-view')
+require('./text-edit-view')
+
+require('./panel-view-edit')
+require('./panel-view')
+
+require('./window-view')
+
+require('./terminal-view')

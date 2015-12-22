@@ -1,34 +1,21 @@
-{ EventEmitter } = TOS
-{ TextBuffer, TextPoint, TextRegion } = require './textbuffer.coffee'
+{ EventEmitter, CustomEvent } = TOS
+{ TextBuffer, TextPoint, TextRegion } = require './textbuffer'
 
 # Events:
 #
 #   * move
 #
-Swim.TextCursor = class TextCursor extends EventEmitter
+TextCursor = class TextCursor extends EventEmitter
 
   constructor: (@buffer, row, col) ->
     EventEmitter @
     @point = @buffer.point row, col
     @point.on "move", =>
-      ee = Swim.CustomEvent target: @
-      @modes_emit 'text.cursor.move', ee
       @emit "move"
 
     @buffer.on "line:change", => @point?.round()
     @buffer.on "line:insert", => @point?.round()
     @buffer.on "line:delete", => @point?.round()
-
-  attached: ->
-    ee = Swim.CustomEvent target: @
-    @modes_emit 'text.cursor.attached', ee
-
-  detached: ->
-    ee = Swim.CustomEvent target: @
-    @modes_emit 'text.cursor.detached', ee
-
-  modes_emit: (e) ->
-    @buffer.modes_emit e
 
   serialize: ->
     if @point
@@ -53,8 +40,6 @@ Swim.TextCursor = class TextCursor extends EventEmitter
     @point  = @region.end
     @region = null
     @point.on "move", =>
-      ee = Swim.CustomEvent target: @
-      @modes_emit 'text.cursor.move', ee
       @emit "move"
 
   toTextRegion: ->
@@ -64,12 +49,8 @@ Swim.TextCursor = class TextCursor extends EventEmitter
 
     @region.begin.removeAllListeners "move"
     @region.begin.on "move", =>
-      ee = Swim.CustomEvent target: @
-      @modes_emit 'text.cursor.move', ee
       @emit "move"
     @region.end.on   "move", =>
-      ee = Swim.CustomEvent target: @
-      @modes_emit 'text.cursor.move', ee
       @emit "move"
 
   # Public:
@@ -167,8 +148,6 @@ Swim.TextCursor = class TextCursor extends EventEmitter
       return false
     else
       @region.delete()
-      ee = Swim.CustomEvent target: @
-      @modes_emit 'text.cursor.move', ee
       @emit "move"
       return true
 
@@ -235,5 +214,6 @@ for method in regionMethods
     TextCursor.prototype[method] = ->
       @toTextRegion()
       @region[method]()
+
 
 module.exports = { TextCursor }

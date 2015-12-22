@@ -1,4 +1,4 @@
-Framer = require('./framer.coffee')
+Framer = require('./framer')
 
 module.exports = class Spinner extends Framer
 

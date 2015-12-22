@@ -1,4 +1,4 @@
-{ BaseView } = TOS
+{ BaseView, PanelViewEdit } = TOS
 { div, span, i, hr } = TOS.html
 
 TOS.PanelView = class PanelView extends BaseView
@@ -19,12 +19,11 @@ TOS.PanelView = class PanelView extends BaseView
 
   created: ->
     super
-    @include TOS.PanelViewEdit::
-    @async(@edit)
+    @async(@edit, 100)
 
   render: (content) ->
     ruler = false
-    super div '.shadow-1.p1.m1', [
+    div '.shadow-1.p1', [
 
       if @attr('icon')
         ruler = true
@@ -42,5 +41,7 @@ TOS.PanelView = class PanelView extends BaseView
       ]
 
     ]
+
+  PanelViewEdit.install @
 
 PanelView.register()

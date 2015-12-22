@@ -1,11 +1,14 @@
-{ WebComponent } = TOS
+{ WebComponent, CustomEvent } = TOS
 { div, span, i, hr } = TOS.html
+
+Keys = require('combokeys')
+
 
 TOS.BaseView = class BaseView extends WebComponent
 
-  # css:
-    # ':host':
-      # 'display': 'block'
+  css:
+    ':host':
+      'display': 'inline-block'
 
   attrs:
     vertical: false
@@ -46,8 +49,20 @@ TOS.BaseView = class BaseView extends WebComponent
       if @attr('last') then c += '.flex-last'
     return c
 
+  key: (sequence, callback) ->
+    if !@_keys?
+      @_keys = new Keys(@)
+
+    fn = (e) =>
+      if @focused()
+        callback.apply(@, arguments)
+        e.stopPropagation()
+
+    @_keys.bind(sequence, fn)
+
+
   render: (content) ->
-    super div @buildContentClass(), [content]
+    div @buildContentClass(), [content]
 
 
 BaseView.register()

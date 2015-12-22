@@ -1,7 +1,7 @@
-{ WebComponent } = TOS
+{ WebComponent, Plugin } = TOS
 { div, span, i, hr } = TOS.html
 
-TOS.PanelViewEdit = class PanelViewEdit
+TOS.PanelViewEdit = class PanelViewEdit extends Plugin
 
   css:
     ':host[editmode]':
@@ -9,9 +9,6 @@ TOS.PanelViewEdit = class PanelViewEdit
 
   attrs:
     editMode: false
-
-  # render: (content) ->
-    # content
 
   edit: ->
     @attr('editmode', '')

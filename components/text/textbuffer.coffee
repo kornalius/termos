@@ -24,28 +24,21 @@ Keeping points synchronized
 # line_insert - {row, text}
 # line_delete - {row}
 # reset       - {}
-Swim.TextBuffer = class TextBuffer extends EventEmitter
+TextBuffer = class TextBuffer extends EventEmitter
   #
   # text        - The initial text of the TextBuffer (String).
   # saveCursor  - A function which should return some cursor data.
   # placeCursor - A function which is passed the cursor data to
   #               restore the position.
-  constructor: (termbuffer, text, @saveCursor = null, @placeCursor = null) ->
+  constructor: (owner, text, @saveCursor = null, @placeCursor = null) ->
     EventEmitter @
-    @_termbuffer = termbuffer
+    @_owner = owner
     @lines        = [""]
     # Eliminate the Windows line-endings.
     @setText text.replace(/\r/g, "")
     @undoStack    = []
     @redoStack    = []
     @currentSteps = []
-
-  modes_emit: (e) ->
-    if @_termbuffer?
-      for m in @_termbuffer._modes
-        m.emit e
-        if e.defaultPrevented
-          break
 
   # Public: Create a point on this TextBuffer.
   #
@@ -267,8 +260,6 @@ Swim.TextBuffer = class TextBuffer extends EventEmitter
           row:     row
           oldText: line
 
-      ee = Swim.CustomEvent target: @, row: row
-      @modes_emit 'text.line.delete', ee
       @emit "line:delete", row
     return line
 
@@ -295,8 +286,6 @@ Swim.TextBuffer = class TextBuffer extends EventEmitter
         oldText: oldText
         newText: text
 
-    ee = Swim.CustomEvent target: @, row: row, text: text
-    @modes_emit 'text.line.change', ee
     @emit "line:change", row, text
     return
 
@@ -321,8 +310,6 @@ Swim.TextBuffer = class TextBuffer extends EventEmitter
         row:     row
         newText: text
 
-    ee = Swim.CustomEvent target: @, row: row, text: text
-    @modes_emit 'text.line.insert', ee
     @emit "line:insert", row, text
     return
 
@@ -339,8 +326,6 @@ Swim.TextBuffer = class TextBuffer extends EventEmitter
   #
   setText: (text) ->
     @lines = text.split "\n"
-    ee = Swim.CustomEvent target: @, text: text
-    @modes_emit 'text.change', ee
     @emit "reset"
 
   # Public: Step back.
@@ -579,7 +564,7 @@ Swim.TextBuffer = class TextBuffer extends EventEmitter
 
 # Events:
 # * move
-Swim.TextPoint = class TextPoint extends EventEmitter
+TextPoint = class TextPoint extends EventEmitter
   constructor: (@buffer, @row, @col, @anchor = true) ->
 
   # Public: Set the row and column of the TextPoint.
@@ -896,7 +881,7 @@ Swim.TextPoint = class TextPoint extends EventEmitter
     @moveTo @row + 1, 0
 
 
-Swim.TextRegion = class TextRegion
+TextRegion = class TextRegion
   constructor: (@begin, @end) ->
     {@buffer} = @begin
 

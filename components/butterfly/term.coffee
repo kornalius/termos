@@ -318,10 +318,20 @@ class Terminal extends EventEmitter
     @showCursor()
 
 
-  color: require('chalk256')
+  color: require('crayon-terminal')
 
 
-  icons: require('./icons.coffee')
+  icons: require('./icons')
+
+
+  framer: ->
+    f = require('./framer')
+    new f(@, arguments...)
+
+
+  spinner: ->
+    s = require('./spinner')
+    new s(@, arguments...)
 
 
   box: require('box-chars')
@@ -342,16 +352,16 @@ class Terminal extends EventEmitter
   linewrap: require('linewrap')
 
 
-  success: (args...) -> chalk.green "✔ #{args.join(' ')}"
+  success: (args...) -> @color.green "✔ #{args.join(' ')}"
 
 
-  warning: (args...) -> chalk.yellow "⚠ #{args.join(' ')}"
+  warning: (args...) -> @color.yellow "⚠ #{args.join(' ')}"
 
 
-  error: (args...) -> chalk.red "✖ #{args.join(' ')}"
+  error: (args...) -> @color.red "✖ #{args.join(' ')}"
 
 
-  info: (args...) -> chalk.cyan "ℹ #{args.join(' ')}"
+  info: (args...) -> @color.cyan "ℹ #{args.join(' ')}"
 
 
   cloneAttr: (a, char=null) ->

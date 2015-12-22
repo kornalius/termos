@@ -1,5 +1,8 @@
 { create, diff, patch, VNode, VText } = require('virtual-dom')
 
+PropertyAccessors = require 'property-accessors'
+EventEmitter = require 'eventemitter3'
+
 fromHTML = require('html-to-vdom')(VNode: VNode, VText: VText)
 toHTML = require('vdom-to-html')
 isVNode = require('virtual-dom/vnode/is-vnode')
@@ -43,6 +46,9 @@ escape = (s) ->
   return s
 
 
+attrObjects = {}
+
+
 attrPairs = (obj) ->
   r = []
   for k of obj
@@ -51,7 +57,12 @@ attrPairs = (obj) ->
   return r
 
 
-stringifyAttr = (k, v) -> "#{escape(k)}=\"#{escape(v)}\""
+stringifyAttr = (k, v) ->
+  if _.isPlainObject(v)
+    id = _.uniqueId()
+    attrObjects[id] = v
+    v = "[[#{id}]]"
+  return "#{escape(k)}=\"#{escape(v)}\""
 
 
 stringifyAttrs = (attrs) ->
@@ -226,9 +237,6 @@ _appendElement = (name, selector, attrs) ->
   return el
 
 
-moduleKeywords = ['extended', 'included', '_renderFns']
-
-
 module.exports =
   raf: raf
   ccss: ccss
@@ -299,7 +307,7 @@ module.exports =
 
 
   WebComponent: class WebComponent extends HTMLElement
-
+    PropertyAccessors.includeInto @
 
     @register: ->
       dname = _.dasherize(@name)
@@ -314,24 +322,9 @@ module.exports =
         _status = S_NONE
 
 
-    include: (obj) ->
-      proto = @constructor.prototype
-      for key, value of obj when key not in moduleKeywords
-        if _.isPlainObject(proto[key]) and _.isPlainObject(value)
-          _.deepExtend(proto[key], value)
-        else if _.isFunction(value) and key == 'render'
-          if !proto._renderFns?
-            proto._renderFns = []
-          k = key + proto._componentName
-          proto[k] = value
-          proto._renderFns.push(k)
-        else
-          proto[key] = value
-      # obj.included?.apply(@)
-      return @
-
-
     createdCallback: ->
+      _.extend @__proto__, EventEmitter.prototype
+
       @isReady = false
       @isAttached = false
       @_vdom = null
@@ -475,11 +468,20 @@ module.exports =
     _prepare: ->
       @_dom()
 
+      @_removeEvents()
+      @_bindInputs()
+      @_createClasses()
+      @_createAttrs()
+      @_createEvents()
+      @_observeProps()
+
       if @_el_style?
         document.head.appendChild(@_el_style)
 
       if @_el?
         @appendChild(@_el)
+
+      @_createIds()
 
 
     _observeProps: ->
@@ -496,15 +498,12 @@ module.exports =
 
       @isReady = true
 
-      @_removeEvents()
-      @_bindInputs()
-      @_createClasses()
-      @_createAttrs()
-      @_createEvents()
-
-      @_createIds()
-
-      @_observeProps()
+      # @_removeEvents()
+      # @_bindInputs()
+      # @_createClasses()
+      # @_createAttrs()
+      # @_createEvents()
+      # @_observeProps()
 
       @_dom()
       if _.contains(_toRender, @)
@@ -514,6 +513,9 @@ module.exports =
         @attached()
 
       @isAttached = true
+
+
+    focused: -> document.activeElement == @
 
 
     detachedCallback: ->
@@ -531,6 +533,8 @@ module.exports =
 
     attributeChangedCallback: (name, oldValue, newValue) ->
       # console.log "attributeChanged:", "#{@tagName.toLowerCase()}#{if !_.isEmpty(@id) then '#' + @id else ''}#{if !_.isEmpty(@className) then '.' + @className else ''}", name, oldValue, '->', newValue
+      if @[name + 'Changed']?
+        @[name + 'Changed'].call(@, newValue, oldValue)
       if @isAttached
         @invalidate()
 
@@ -558,6 +562,12 @@ module.exports =
       @_vdom_style = vs;
 
       html = @render()
+      if _.isFunction(html)
+        html = html.call(@)
+      if _.isArray(html)
+        html = "<div>#{stringifyContents(html)}</div>"
+      if _.isEmpty(html)
+        html = '<div></div>'
       v = fromHTML(html)
       if !@_vdom?
         @_el = create(v)
@@ -601,7 +611,7 @@ module.exports =
     getAttrs: ->
       a = {}
       if @__super__?
-        a =_.extend({}, super, a)
+        a = _.extend({}, super, a)
       if @__proto__?.getAttrs?
         a = _.extend({}, @__proto__.getAttrs(), a)
       r = {}
@@ -614,7 +624,7 @@ module.exports =
     getEvents: ->
       e = {}
       if @__super__?
-        e =_.extend({}, super, e)
+        e = _.extend({}, super, e)
       if @__proto__?.getEvents?
         e =_.extend({}, @__proto__.getEvents(), e)
       r = {}
@@ -665,18 +675,5 @@ module.exports =
     updated: ->
 
 
-    render: (content) ->
-      html = ''
+    render: -> '<div></div>'
 
-      if _.isFunction(content)
-        html = content.call(@)
-      else if _.isArray(content)
-        html = stringifyContents(content)
-      else if _.isString(content)
-        html = content
-
-      # if @_renderFns?
-        # for r in @_renderFns
-          # html = @[r].call(@, $().html(html))
-
-      return if _.isEmpty(html) then '<div></div>' else html

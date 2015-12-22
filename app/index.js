@@ -1,2 +1,3 @@
-require('coffee-script').register();
-require('./app/main.coffee');
+require('coffee-cache').setCacheDir('./.cached/')
+// require('coffee-script').register();
+require('./app/main');

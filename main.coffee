@@ -95,7 +95,7 @@ app.on 'ready', (e) ->
     title: 'termOS'
     center: true
     devTools: true
-    run: '../app/app.coffee'
+    run: '../app/app'
   )
 
 

@@ -1,4 +1,4 @@
-Layer = require('./layer.coffee')
+Layer = require('./layer')
 
 module.exports = class Framer
 

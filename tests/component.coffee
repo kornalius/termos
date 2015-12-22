@@ -1,6 +1,7 @@
+{ WebComponent } = TOS
 { div, span } = TOS.html
 
-class MyBaseComponent extends TOS.WebComponent
+class MyBaseComponent extends WebComponent
 
   css:
     ':host':
@@ -15,13 +16,15 @@ class MyBaseComponent extends TOS.WebComponent
     attr1: true
 
   created: ->
+    super
     console.log "base created", @
 
   attached: ->
+    super
     console.log "base attached", @
 
   render: (content) ->
-    super div [
+    div [
       content
       span ' WORLD!'
     ]
@@ -57,7 +60,24 @@ class MyComponent extends MyBaseComponent
 MyComponent.register()
 
 
+class ComponentWithAttrObject extends WebComponent
+
+  props:
+    fromAttr: { text: 'fromAttr value' }
+
+  render: ->
+    if @fromAttr?
+      div @fromAttr.text
+
+
+ComponentWithAttrObject.register()
+
+
 # c = TOS.html.myComponent()
 c = document.createElement('my-component')
 document.body.appendChild c
 c.prop1 = "HELLO"
+
+
+c = document.createElement('component-with-attr-object', fromAttr: { text: 'Hello World', a: 10 } )
+document.body.appendChild c

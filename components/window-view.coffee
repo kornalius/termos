@@ -18,7 +18,7 @@ TOS.WindowView = class WindowView extends BaseView
     maximizable: true
 
   render: (content) ->
-    super div '.window.flex.flex-stretch', [
+    div '.window.flex.flex-stretch', [
 
       div '.p1.title', [
         i "#icon.mr1.h3.ic-#{@attr('icon')}" if @attr('icon')

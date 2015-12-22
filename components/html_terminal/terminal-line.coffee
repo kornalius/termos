@@ -1,6 +1,6 @@
 EventEmitter = require('eventemitter3')
 PropertyAccessors = require('property-accessors')
-TerminalChar = require('./terminal-char.coffee')
+TerminalChar = require('./terminal-char')
 
 
 NODE_UNKNOWN = 0

@@ -9,6 +9,10 @@
 				"termos.sublime-project",
 				"termos.sublime-workspace"
 			],
+			"folder_exclude_patterns":
+			[
+				".cached"
+			],
 			"path": "."
 		}
 	]

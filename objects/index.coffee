@@ -34,21 +34,22 @@ TOS.instanceFunctions = (target, source, names) ->
       # target.prototype[n] = new Function(TOS.instanceFunction(source[n]))
       target.prototype[n] = TOS.instanceFunction(source[n])
 
+TOS.Plugin = require('./plugin')
 
-require('./object.coffee')
-require('./element.coffee')
-require('./number.coffee')
-require('./boolean.coffee')
-require('./string.coffee')
-require('./array.coffee')
-require('./tree.coffee')
-require('./date.coffee')
-require('./color.coffee')
-require('./flags.coffee')
-require('./vfs.coffee')
-require('./lfs.coffee')
-require('./dbfs.coffee')
-require('./file.coffee')
+require('./object')
+require('./element')
+require('./number')
+require('./boolean')
+require('./string')
+require('./array')
+require('./tree')
+require('./date')
+require('./color')
+require('./flags')
+require('./vfs')
+require('./lfs')
+require('./dbfs')
+require('./file')
 
 
 TOS.save = (obj, path, cb) ->
@@ -56,12 +57,12 @@ TOS.save = (obj, path, cb) ->
     throw err if err?
     cb(err) if cb?
 
+TOS.saveSync = (obj, path) -> fs.writeFileSync path, cson.stringify(obj, null, 2)
+
 TOS.load = (path, cb) ->
   fs.readFile path, (err, data) ->
     throw err if err?
     cb(err, cson.parse(data)) if cb?
-
-TOS.saveSync = (obj, path) -> fs.writeFileSync path, cson.stringify(obj, null, 2)
 
 TOS.loadSync = (path) -> cson.parse(fs.readFileSync path)
 

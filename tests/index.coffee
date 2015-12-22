@@ -1,5 +1,8 @@
 
-require('./ces.coffee')
-require('./component.coffee')
-require('./panel.coffee')
-require('./dbfs.coffee')
+require('./ces')
+require('./component')
+require('./button')
+require('./textbuffer')
+require('./text-edit')
+require('./panel')
+require('./dbfs')

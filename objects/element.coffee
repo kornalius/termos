@@ -133,28 +133,46 @@ Object.defineProperty(Element.prototype, 'opacity',
   set: (value) -> @style.opacity = value
 )
 
-window.$ = require('domtastic')
 
-_.extend(window.$.prototype, require('bean'))
-
-window.$.prototype.constructor.create = (tag, attrs) ->
-  el = $(document.createElement(tag))
+oldDocumentCreateElement = document.__proto__.createElement
+window.document.__proto__.createElement = (tag, attrs) ->
+  el = oldDocumentCreateElement.call(document, tag)
+  props = el.props
   for k, v of attrs
-    el.attr(k, v)
+    if props?[k]?
+      el[k] = v
+    else
+      el.attr(k, v)
   return el
 
-window.$.fn.hasAttr = (name) ->
-  ok = false
-  _.each(@, (element) -> ok |= element.hasAttribute(name))
-  return ok
-
-window.loadCSS = (path, macros) ->
+window.loadCSS = (path, name, macros) ->
   fs = require('fs')
   el = document.createElement('style')
+  if _.isPlainObject(name)
+    macros = name
+    name = null
+  if name?
+    el.id = name
   s = fs.readFileSync(path).toString()
   if macros?
     for k, v of macros
       s = s.replace(new RegExp('__' + k + '__', 'gim'), v)
   el.textContent = s
-  document.querySelector('head').appendChild(el)
+  document.head.appendChild(el)
   return el
+
+window.unloadCSS = (name) ->
+  for el in Array.from(document.head.querySelectorAll("style[id=#{name}"))
+    el.remove() if el?
+
+
+window.$ = require('domtastic')
+
+_.extend(window.$.prototype, require('bean'))
+
+window.$.prototype.constructor.create = (tag, attrs) -> $(document.createElement(tag, attrs))
+
+window.$.fn.hasAttr = (name) ->
+  ok = false
+  _.each(@, (element) -> ok |= element.hasAttribute(name))
+  return ok

@@ -1,3 +1,6 @@
+startTime = Date.now()
+console.log "Starting up new context..."
+
 remote = require('remote')
 app = remote.require('app')
 p = remote.require('path')
@@ -8,17 +11,14 @@ fs = remote.require('fs-plus')
 # mixins.bootstrap()
 
 
-userPath = p.join(app.getPath('home'), '.termos')
+# userPath = p.join(app.getPath('home'), '.termos')
+userPath = p.join(p.dirname(module.filename), '../user')
 
 if !fs.existsSync(userPath)
   fs.mkdirSync(userPath)
 
 
 window._ = require('underscore-plus')
-# _.extend(_, require('underscore.string').exports())
-_.extend(_, require('underscore-contrib'))
-_.extend(_, require('underscore.array'))
-_.extend(_, require('starkjs-underscore'))
 _.extend _, require('lodash')
 
 
@@ -52,18 +52,21 @@ window.TOS =
 _.extend TOS,
   PropertyAccessors: require 'property-accessors'
   EventEmitter: require 'eventemitter3'
-  # Terminal: require('./terminal/terminal.coffee')
+  # Terminal: require('./terminal/terminal')
   cson: require('cson-parser')
   Promise: require('bluebird')
-  # lie: require('lie')
 
-_.extend TOS, require('./webcomponent.coffee')
+_.extend TOS,
+  require('./webcomponent'),
+  require('./packages'),
+  require('./settings')
 
 
-require('../objects/index.coffee')
+require('../objects/index')
+require('../components/index')
 
 
-require('../components/index.coffee')
+console.log "Finished startup!", "#{Date.now() - startTime}ms"
 
 
 ipc.on 'load', (run) ->
@@ -74,8 +77,8 @@ ipc.on 'load', (run) ->
   # TOS.loadCSS(p.join(__dirname, '/terminal/terminal-line.css'))
   # TOS.loadCSS(p.join(__dirname, '/terminal/terminal-cursor.css'))
 
-  require('./init.coffee')
-  require('../user/init.coffee')
+  # require('./init')
+  require(p.join(TOS.dirs.user, 'init'))
 
   if run?
     require(run)
@@ -83,7 +86,7 @@ ipc.on 'load', (run) ->
 
 ipc.on 'unload', ->
 
-  require('../user/shut.coffee')
-  require('./shut.coffee')
+  require(p.join(TOS.dirs.user, 'shut'))
+  # require('./shut')
 
 

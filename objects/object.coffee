@@ -2,7 +2,6 @@
 
 raf = require('raf')
 
-
 _toCall = []
 
 raf _callQueue = ->
@@ -14,6 +13,11 @@ raf _callQueue = ->
   raf _callQueue
 
 
+Object.constructor.prototype.load = (path, cb) -> TOS.load(path, cb)
+
+Object.constructor.prototype.loadSync = (path) -> TOS.loadSync(path)
+
+
 ObjectExtender =
 
   async: (cb, time) ->
@@ -22,13 +26,19 @@ ObjectExtender =
     else
       _toCall.push(cb.bind(@))
 
+  deffered: (cb) -> @async(cb, 0)
+
   val: (path, value) -> if value? then _.set @, path, value else _.get @, path
+
+  nest: (path, value) -> @mixin require('nest-object').nest(path, value)
 
   flatten: -> require('flat').flatten @, overwrite: true
 
   unflatten: -> require('flat').unflatten @, overwrite: true
 
-  save: (path, cb) -> TOS.save(path, @, cb)
+  save: (path, cb) -> TOS.save(@, path, cb)
+
+  saveSync: (path) -> TOS.saveSync(@, path)
 
   mixin: (deep) -> if deep then _.deepExtend @ else _.extend @
 

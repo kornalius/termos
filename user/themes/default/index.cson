@@ -1,0 +1,6 @@
+name: 'Default Theme'
+author: 'Alain Deschenes'
+files: [
+  'index.css'
+  'test.css'
+]
