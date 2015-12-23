@@ -50,6 +50,10 @@
     return r;
   };
 
+  Element.prototype.addAttr = function(name) {
+    return this.setAttribute(name, '');
+  };
+
   Element.prototype.hasAttr = function(name) {
     return this.hasAttribute(name);
   };

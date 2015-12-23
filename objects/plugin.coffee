@@ -7,19 +7,20 @@ module.exports = class Plugin
     name = @prototype.constructor.name
 
     if !proto.__plugins?
-      proto.__plugins = {}
+      proto.__plugins = []
 
-    if !proto.__plugins[name]?
+    if !_.find(proto.__plugins, 'name', name)
       pp =
         extended: []
         behaviors: {}
         objects: {}
-      proto.__plugins[name] = pp
+      proto.__plugins.push { name:name, data: pp }
 
       if !proto.__$callBehaviors__?
         proto.__$callBehaviors__ = (key, args...) ->
           results = []
-          for k, p of @__plugins
+          for pi in @__plugins
+            p = pi.data
             if p.behaviors[key]?
               for fn in p.behaviors[key]
                 results.push(fn.apply(@, args))
@@ -28,7 +29,8 @@ module.exports = class Plugin
       if !proto.__$getObjects__?
         proto.__$getObjects__ = (key) ->
           results = {}
-          for k, p of @__plugins
+          for pi in @__plugins
+            p = pi.data
             if p.objects[key]?
               for d in p.objects[key]
                 _.deepExtend results, d
@@ -39,6 +41,11 @@ module.exports = class Plugin
 
       op = @prototype
       for key in Object.getOwnPropertyNames(op) when key not in ExcludedPrototypeProperties
+
+        # opd = Object.getOwnPropertyDescriptor(op, key)
+        # if opd?.get or opd?.set
+          # continue
+
         value = op[key]
         k = "__$#{key}__"
 
@@ -46,8 +53,7 @@ module.exports = class Plugin
           if !pp.behaviors[key]?
             pp.behaviors[key] = []
           if !proto[k]?
-            if proto[key]?
-              pp.behaviors[key].push proto[key]
+            pp.behaviors[key].push proto[key]
             proto[key] = new Function "return this.__$callBehaviors__.apply(this, ['#{key}'].concat(Array.from(arguments)));"
             proto[k] = true
           pp.behaviors[key].unshift value
@@ -57,7 +63,8 @@ module.exports = class Plugin
           if !pp.objects[key]?
             pp.objects[key] = []
           if !proto[k]?
-            if proto[key]?
+            if proto.hasOwnProperty(key)
+              debugger;
               pp.objects[key].push proto[key]
             Object.defineProperty(proto, key, get: new Function "return this.__$getObjects__.apply(this, ['#{key}']);")
             proto[k] = true
@@ -74,6 +81,7 @@ module.exports = class Plugin
     name = @prototype.constructor.name
     if proto.__plugins?
       delete proto.__plugins[name]
+    _.remove(proto.__plugins_order, name)
 
 
 ExcludedClassProperties = ['__super__']

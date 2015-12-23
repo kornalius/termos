@@ -1,12 +1,12 @@
 (function() {
-  var BaseView, CustomEvent, TextBuffer, TextCaretView, TextCursor, TextEditView, TextPoint, TextRegion, div, ref, ref1, span, textarea,
+  var BaseView, CustomEvent, TextBuffer, TextCursor, TextEditView, TextPoint, TextRegion, div, ref, ref1, span, textarea, textcaretview,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
   BaseView = TOS.BaseView, CustomEvent = TOS.CustomEvent;
 
-  ref = TOS.html, textarea = ref.textarea, div = ref.div, span = ref.span, TextCaretView = ref.TextCaretView;
+  ref = TOS.html, textarea = ref.textarea, div = ref.div, span = ref.span, textcaretview = ref.textcaretview;
 
   ref1 = require('./text/textbuffer'), TextBuffer = ref1.TextBuffer, TextPoint = ref1.TextPoint, TextRegion = ref1.TextRegion;
 
@@ -37,17 +37,17 @@
       }
     };
 
-    TextEditView.prototype.attrs = {
+    TextEditView.prototype.props = {
       caretBlinkRate: 500,
       caretExtraWidth: 0,
       caretExtraHeight: 0
     };
 
-    TextEditView.prototype.accessor('caret', function() {
-      if (this.carets.length === 0) {
-        return this.addCaret();
+    TextEditView.prototype.accessor('cursor', function() {
+      if (this.cursors.length === 0) {
+        return this.addCursor();
       } else {
-        return this.carets[0];
+        return this.cursors[0];
       }
     });
 
@@ -55,7 +55,7 @@
       return this.async(function() {
         if ((value != null) && (this._buffer != null) && this._buffer.text() !== value) {
           this._buffer.setText(value);
-          this.setCaret();
+          this.setCursor();
           return this.invalidate();
         }
       });
@@ -82,7 +82,7 @@
 
     TextEditView.prototype.created = function() {
       TextEditView.__super__.created.apply(this, arguments);
-      this.carets = [];
+      this.cursors = [];
       this._viewport = {
         x: 0,
         y: 0
@@ -95,7 +95,7 @@
       if (this.parentNode != null) {
         this._buffer = new TextBuffer(this, '');
         this.computeCharSize();
-        this.setCaret();
+        this.setCursor();
         this._buffer.on('line:change', (function(_this) {
           return function(row) {
             _this.scrollInView();
@@ -129,10 +129,10 @@
           return function(e) {
             var c, i, len, ref2;
             console.log(_this, e);
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.insert(String.fromCharCode(e.which));
+              c.insert(String.fromCharCode(e.which));
             }
             _this.scrollInView();
             return e.stopPropagation();
@@ -141,10 +141,10 @@
         this.key('backspace', (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.deleteBack();
+              c.deleteBack();
             }
             return e.stopPropagation();
           };
@@ -152,10 +152,10 @@
         this.key(['ctrl+backspace', 'alt+backspace'], (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.deleteWordBack();
+              c.deleteWordBack();
             }
             return e.stopPropagation();
           };
@@ -163,10 +163,10 @@
         this.key('del', (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.deleteForward();
+              c.deleteForward();
             }
             return e.stopPropagation();
           };
@@ -174,10 +174,10 @@
         this.key(['ctrl+del', 'alt+del'], (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.deleteWordForward();
+              c.deleteWordForward();
             }
             return e.stopPropagation();
           };
@@ -185,10 +185,10 @@
         this.key('left', (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.moveLeft();
+              c.moveLeft();
             }
             _this.scrollInView();
             return e.stopPropagation();
@@ -197,10 +197,10 @@
         this.key('right', (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.moveRight();
+              c.moveRight();
             }
             _this.scrollInView();
             return e.stopPropagation();
@@ -209,10 +209,10 @@
         this.key('up', (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.moveUp();
+              c.moveUp();
             }
             _this.scrollInView();
             return e.stopPropagation();
@@ -221,10 +221,10 @@
         this.key('down', (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.moveDown();
+              c.moveDown();
             }
             _this.scrollInView();
             return e.stopPropagation();
@@ -233,10 +233,10 @@
         this.key(['ctrl+left', 'alt+left'], (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.moveToPrevWord();
+              c.moveToPrevWord();
             }
             _this.scrollInView();
             return e.stopPropagation();
@@ -245,10 +245,10 @@
         this.key(['ctrl+right', 'alt+right'], (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.moveToNextWord();
+              c.moveToNextWord();
             }
             _this.scrollInView();
             return e.stopPropagation();
@@ -257,10 +257,10 @@
         this.key(['home', 'command+left'], (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.moveToLineBegin();
+              c.moveToLineBegin();
             }
             _this.scrollInView();
             return e.stopPropagation();
@@ -269,10 +269,10 @@
         this.key(['end', 'command+right'], (function(_this) {
           return function(e) {
             var c, i, len, ref2;
-            ref2 = _this.carets;
+            ref2 = _this.cursors;
             for (i = 0, len = ref2.length; i < len; i++) {
               c = ref2[i];
-              c.cursor.moveToLineEnd();
+              c.moveToLineEnd();
             }
             _this.scrollInView();
             return e.stopPropagation();
@@ -288,21 +288,28 @@
     };
 
     TextEditView.prototype.render = function(content) {
-      var l;
-      return div('.edit-view', [
-        (function() {
-          var i, len, ref2, results;
-          if (this._buffer != null) {
-            ref2 = this._buffer.lines;
-            results = [];
-            for (i = 0, len = ref2.length; i < len; i++) {
-              l = ref2[i];
-              results.push(div([span(l)]));
-            }
-            return results;
-          }
-        }).call(this)
-      ]);
+      var c, cnt, i, j, l, len, len1, ref2, ref3;
+      cnt = [];
+      if (this._buffer != null) {
+        ref2 = this._buffer.lines;
+        for (i = 0, len = ref2.length; i < len; i++) {
+          l = ref2[i];
+          cnt.push(div([span(l)]));
+        }
+        ref3 = this.cursors;
+        for (j = 0, len1 = ref3.length; j < len1; j++) {
+          c = ref3[j];
+          cnt.push(textcaretview(".caret-view", {
+            textCursor: c,
+            row: c.row,
+            col: c.col,
+            caretBlinkRate: this.caretBlinkRate,
+            caretExtraWidth: this.caretExtraWidth,
+            caretExtraHeight: this.caretExtraHeight
+          }));
+        }
+      }
+      return div('.edit-view', cnt);
     };
 
     TextEditView.prototype.pixelToTextPoint = function(pixel) {
@@ -429,133 +436,131 @@
       }
     };
 
-    TextEditView.prototype.caretToTextPoint = function(caret) {
-      if (caret.cursor.region != null) {
-        return caret.cursor.region.end;
-      } else if (caret.cursor.point != null) {
-        return caret.cursor.point;
+    TextEditView.prototype.cursorToTextPoint = function(cursor) {
+      if ((cursor != null ? cursor.region : void 0) != null) {
+        return cursor.region.end;
+      } else if ((cursor != null ? cursor.point : void 0) != null) {
+        return cursor.point;
       } else {
         return this.textPoint();
       }
     };
 
-    TextEditView.prototype.caretRegion = function(caret) {
-      if (caret.cursor.region != null) {
-        return caret.cursor.region;
-      } else if (caret.cursor.point != null) {
-        return this.textRegion(caret.cursor.point);
+    TextEditView.prototype.cursorRegion = function(cursor) {
+      if ((cursor != null ? cursor.region : void 0) != null) {
+        return cursor.region;
+      } else if ((cursor != null ? cursor.point : void 0) != null) {
+        return this.textRegion(cursor.point);
       } else {
         return this.textRegion();
       }
     };
 
-    TextEditView.prototype.setCaret = function(caret, point) {
-      if (!(caret instanceof TextCaretView)) {
-        point = caret;
-        caret = null;
+    TextEditView.prototype.setCursor = function(cursor, point) {
+      if (!(cursor instanceof TextCursor)) {
+        point = cursor;
+        cursor = null;
       }
-      if (caret == null) {
-        caret = this.caret;
+      if (cursor == null) {
+        cursor = this.cursor;
       }
       if (point == null) {
         point = this.textPoint();
       }
       if (this.isValidTextPoint(point)) {
-        caret.moveTo(point);
+        cursor.moveTo(point);
       }
-      return caret;
+      return cursor;
     };
 
-    TextEditView.prototype.addCaret = function(point) {
-      var caret;
+    TextEditView.prototype.addCursor = function(point) {
+      var cursor;
       if (point == null) {
         point = {
-          x: 0,
-          y: 0
+          row: 0,
+          col: 0
         };
       }
-      caret = null;
+      cursor = null;
       if (this.isValidTextPoint(point)) {
-        caret = document.createElement('text-caret-view', {
-          caretBlinkRate: this.attr('caretBlinkRate', {
-            caretExtraWidth: this.attr('caretExtraWidth', {
-              caretExtraHeight: this.attr('caretExtraHeight')
-            })
-          })
-        });
-        caret.moveTo(point);
-        this.carets.push(caret);
-        caret.on('move', (function(_this) {
+        cursor = new TextCursor(this._buffer, point);
+        this.cursors.push(cursor);
+        this.invalidate();
+        cursor.on('move', (function(_this) {
           return function() {
-            _this.emit('text.caret.view.move', {
-              target: caret
-            });
-            return _this.scrollInView();
+            if (cursor.caret != null) {
+              cursor.caret.updateCaret();
+              _this.emit('text.caret.view.move', {
+                target: cursor.caret
+              });
+              return _this.scrollInView();
+            }
           };
         })(this));
       }
-      return caret;
+      return cursor;
     };
 
-    TextEditView.prototype.removeCaret = function(caret) {
+    TextEditView.prototype.removeCursor = function(cursor) {
       var point;
-      if (!(caret instanceof TextCaretView)) {
-        point = caret;
-        caret = null;
+      if (!(cursor instanceof TextCursor)) {
+        point = cursor;
+        cursor = null;
       }
-      if ((caret != null) && caret !== this.caret) {
-        _.remove(this.carets, caret);
+      if ((cursor != null) && cursor !== this.cursor) {
+        _.remove(this.cursors, cursor);
+        this.invalidate();
       }
       return this;
     };
 
-    TextEditView.prototype.moveCaret = function(caret, point) {
-      if (!(caret instanceof TextCaretView)) {
-        point = caret;
-        caret = null;
+    TextEditView.prototype.moveCursor = function(cursor, point) {
+      if (!(cursor instanceof TextCursor)) {
+        point = cursor;
+        cursor = null;
       }
-      if (caret == null) {
-        caret = this.caret;
+      if (cursor == null) {
+        cursor = this.cursor;
       }
       if (this.isValidTextPoint(point)) {
-        caret.moveTo(point);
+        cursor.moveTo(point);
       }
       return this;
     };
 
-    TextEditView.prototype.select = function(caret, region) {
-      if (!(caret instanceof TextCaretView)) {
-        region = caret;
-        caret = null;
+    TextEditView.prototype.select = function(cursor, region) {
+      if (!(cursor instanceof TextCursor)) {
+        region = cursor;
+        cursor = null;
       }
-      if (caret == null) {
-        caret = this.caret;
+      if (cursor == null) {
+        cursor = this.cursor;
       }
       if (this.isValidTextPoint(region.begin) && this.isValidTextPoint(region.end)) {
-        caret.select(this.textRegion(region));
+        cursor.select(this.textRegion(region));
       }
       return this;
     };
 
-    TextEditView.prototype.caretAt = function(point, regionOnly) {
+    TextEditView.prototype.cursorAt = function(point, regionOnly) {
       var c, i, len, ref2;
       if (regionOnly == null) {
         regionOnly = false;
       }
-      ref2 = this.carets;
+      ref2 = this.cursors;
       for (i = 0, len = ref2.length; i < len; i++) {
         c = ref2[i];
-        if ((c.cursor.point != null) && c.cursor.point.col === point.col && c.cursor.point.row === point.row && !regionOnly) {
+        if ((c.point != null) && c.point.col === point.col && c.point.row === point.row && !regionOnly) {
           return c;
-        } else if ((c.cursor.region != null) && this.textRegionContains(c.cursor.region, point)) {
+        } else if ((c.region != null) && this.textRegionContains(c.region, point)) {
           return c;
         }
       }
       return null;
     };
 
-    TextEditView.prototype.caretAtPixel = function(pixel) {
-      return this.caretAt(this.pixelToTextPoint(pixel));
+    TextEditView.prototype.cursorAtPixel = function(pixel) {
+      return this.cursorAt(this.pixelToTextPoint(pixel));
     };
 
     TextEditView.prototype.isValidTextPoint = function(point) {
@@ -564,10 +569,10 @@
 
     TextEditView.prototype.scrollBy = function(pos) {
       var c, i, len, ref2;
-      ref2 = this.carets;
+      ref2 = this.cursors;
       for (i = 0, len = ref2.length; i < len; i++) {
         c = ref2[i];
-        c.cursor.moveTo(this.fromTextPoint(this.caretToTextPoint(tc)));
+        c.moveTo(this.fromTextPoint(this.cursorToTextPoint(tc)));
       }
       this.invalidate();
       return this;
@@ -581,7 +586,7 @@
         vcenter = false;
       }
       if (point == null) {
-        point = this.caretToTextPoint();
+        point = this.cursorToTextPoint();
       }
       if (point == null) {
         return point = this.textPoint();
@@ -606,7 +611,7 @@
       TextEditView.__super__.onDown.call(this, e);
       if (!e.defaultPrevented) {
         if (this._clickCount === 1) {
-          this.setCaret(this.caret, this._pressed.text.pos);
+          this.setCursor(this.caret, this._pressed.text.pos);
         }
         this.scrollInView();
         this.invalidate();
@@ -621,7 +626,7 @@
         tpt = this.pixelToTextPoint(this._pressed.pixel.pos);
         this._pressed.text.pos = tpt;
         this._pressed.text.distance = tpt.distance(this._pressed.text.start);
-        tcp = this.caretToTextPoint(this.caret);
+        tcp = this.cursorToTextPoint(this.caret);
         if (tpt.row !== tcp.row || tpt.col !== tcp.col) {
           this.select(this.caret, this.textRegion(this._pressed.text.start, tpt));
           this.scrollInView();

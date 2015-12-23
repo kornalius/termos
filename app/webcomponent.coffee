@@ -46,31 +46,32 @@ escape = (s) ->
   return s
 
 
-attrObjects = {}
+# attrPairs = (obj) ->
+#   r = []
+#   for k of obj
+#     if obj.hasOwnProperty(k)
+#       r.push [k, obj[k]]
+#   return r
 
 
-attrPairs = (obj) ->
-  r = []
-  for k of obj
-    if obj.hasOwnProperty(k)
-      r.push [k, obj[k]]
-  return r
+# stringifyAttr = (k, v) ->
+#   if _.isUndefined(v) or _.isNull(v)
+#     return null
+#   else
+#     if v == true
+#       return "#{escape(k)}"
+#     else
+#       return "#{escape(k)}=\"#{escape(v)}\""
 
 
-stringifyAttr = (k, v) ->
-  if _.isPlainObject(v)
-    id = _.uniqueId()
-    attrObjects[id] = v
-    v = "[[#{id}]]"
-  return "#{escape(k)}=\"#{escape(v)}\""
-
-
-stringifyAttrs = (attrs) ->
-  pairs = attrPairs(attrs)
-  r = []
-  for i in [0...pairs.length]
-    r.push stringifyAttr(pairs[i][0], pairs[i][1])
-  return r.join(' ')
+# stringifyAttrs = (attrs) ->
+#   pairs = attrPairs(attrs)
+#   r = []
+#   for i in [0...pairs.length]
+#     s = stringifyAttr(pairs[i][0], pairs[i][1])
+#     if !_.isNull(s)
+#       r.push s
+#   return r.join(' ')
 
 
 parseAttrs = (str) ->
@@ -131,59 +132,96 @@ parseAttrs = (str) ->
   return attrs
 
 
-stringifyContents = (contents) ->
+# stringifyContents = (contents) ->
+#   if _.isArray(contents)
+#     str = ''
+#     for c in contents
+#       str += stringifyContents(c)
+#     return str
+
+#   else if _.isFunction(contents)
+#     r = contents.call(@)
+#     if !r?
+#       r = ''
+#     return r
+
+#   else if contents?
+#     return contents.toString()
+
+#   else
+#     return ''
+
+
+processContents = (contents) ->
+  r = []
+
   if _.isArray(contents)
-    str = ''
-    for c in contents
-      str += stringifyContents(c)
-    return str
+    for c in contents when c?
+      rc = processContents(c)
+      if _.isArray(rc)
+        if rc.length == 1
+          rc = rc[0]
+        else if rc.length == 0
+          rc = null
+      r.push rc if rc?
 
   else if _.isFunction(contents)
     r = contents.call(@)
-    if !r?
-      r = ''
-    return r
 
-  else if contents?
-    return contents.toString()
+  else if _.isString(contents)
+    r = new VText(contents)
 
-  else
-    return ''
+  else if contents instanceof VNode or contents instanceof VText
+    r = contents
 
-
-isSelector = (string) -> string.length > 1 and string.charAt(0) in ['#', '.']
+  return if _.isArray(r) then r else [r]
 
 
-createElementFn = (tag, empty) ->
+isSelector = (string) -> _.isString(string) and string.length > 1 and string.charAt(0) in ['#', '.']
+
+
+createElementFn = (tag, proto, empty) ->
   (attrs, contents) ->
 
-    selector = if _.isString(attrs) then isSelector(attrs) else false
-
-    if _.isString(attrs) and _.isArray(contents)
-
-    else if _.isString(attrs) and !selector
+    if _.isArray(attrs)
       contents = attrs
       attrs = null
 
-    else if _.isArray(attrs)
-      contents = attrs
-      attrs = null
+    selector = isSelector(attrs)
 
-    attrs = attrs or {}
+    if _.isString(attrs)
+      if selector
+        attrs = parseAttrs(attrs)
+      else
+        contents = attrs
+        attrs = null
 
-    if _.isString(attrs) and selector
-      attrs = parseAttrs(attrs)
+    attrs = {} if !_.isPlainObject(attrs)
 
-    attrstr = stringifyAttrs(attrs)
+    if _.isPlainObject(contents)
+      _.extend attrs, contents
+      contents = null
 
-    inner = stringifyContents(contents)
+    # attrs = attrs or {}
 
-    if empty
-      # if !_.isEmpty(inner)
-        # throw new Error('Contents provided for empty tag type')
-      return "<#{tag}#{if attrstr?.length then ' ' + attrstr else ''}/>"
-    else
-      return "<#{tag}#{if attrstr?.length then ' ' + attrstr else ''}>#{inner}</#{tag}>"
+    # attrstr = stringifyAttrs(attrs)
+
+    # inner = stringifyContents(contents)
+
+    inner = processContents(contents)
+
+    keys = if proto?.props? then _.keys(proto.props) else []
+    properties = _.pick(attrs, (v, k) -> _.contains(keys, k))
+    properties.attributes = _.pick(attrs, (v, k) -> !_.contains(keys, k))
+
+    return new VNode(tag, properties, inner)
+
+    # if empty
+      # # if !_.isEmpty(inner)
+        # # throw new Error('Contents provided for empty tag type')
+      # return "<#{tag}#{if attrstr?.length then ' ' + attrstr else ''}/>"
+    # else
+      # return "<#{tag}#{if attrstr?.length then ' ' + attrstr else ''}>#{inner}</#{tag}>"
 
 # Export tag functions
 html = {}
@@ -224,11 +262,7 @@ _elementConstructor = (name) ->
   document.createElement(name).constructor
 
 
-_createElement = (name, attrs) ->
-  el = document.createElement(name)
-  for key, value of attrs
-    el.setAttribute(key, if value == true then '' else value.toString())
-  return el
+_createElement = (name, attrs) -> document.createElement(name, attrs)
 
 
 _appendElement = (name, selector, attrs) ->
@@ -313,12 +347,14 @@ module.exports =
       dname = _.dasherize(@name)
       if !_isElementRegistered(dname)
         _status = S_INITIALIZING
-        cname = _.camelize(@name)
+        cname = @name.toLowerCase()
         proto = Object.create(@prototype.constructor).prototype
+        # if @__super__?
+          # proto.__$super__ = @__super__
         proto._componentName = cname
         proto._elementName = dname
         e = document.registerElement(dname, prototype: proto)
-        html[cname] = createElementFn(dname, false)
+        html[cname] = createElementFn(dname, proto, false)
         _status = S_NONE
 
 
@@ -332,13 +368,19 @@ module.exports =
       @_observers = []
 
       if _status != S_INITIALIZING
+        @_uniqueId = _.uniqueId()
+        @classList.add("#{@_elementName}-#{@_uniqueId}")
         if @created?
           @created()
-        uuid = _.uniqueId()
-        @_uniqueId = uuid
-        @classList.add("#{@_elementName}-#{uuid}")
 
       @_prepare()
+
+      # if _status != S_INITIALIZING
+      #   if _componentProps[@_uniqueId]?
+      #     debugger;
+      #     for k, v of _componentProps[@_uniqueId]
+      #       @[k] = v
+      #     delete _componentProps[@_uniqueId]
 
 
     _bindInputs: ->
@@ -413,8 +455,29 @@ module.exports =
       return if _status == S_INITIALIZING
 
       for key, value of @getAttrs()
-        if !@hasAttribute(key) and value? and value != false
+        if key == 'title'
+          debugger;
+
+        if value? and value != false and !@hasAttribute(key)
           @setAttribute(key, if value == true then '' else value.toString())
+
+
+    _observeProps: ->
+      return if _status == S_INITIALIZING
+
+      for o in @_observers
+        o.close()
+      @_observers = []
+
+      that = @
+      for k, v of @getProps()
+        @[k] = v
+        @_observe(k, (e) ->
+          n = "#{k}Changed"
+          if that[n]?
+            that[n].call that, n, e.newValue
+          that.invalidate()
+        )
 
 
     _observe: (path, fn) ->
@@ -484,28 +547,21 @@ module.exports =
       @_createIds()
 
 
-    _observeProps: ->
-      return if _status == S_INITIALIZING
-
-      for k, v of @getProps()
-        @[k] = v
-        @_observe(k, (=> @invalidate()))
-
-
     attachedCallback: ->
       if @ready?
         @ready()
 
       @isReady = true
 
-      # @_removeEvents()
-      # @_bindInputs()
-      # @_createClasses()
-      # @_createAttrs()
-      # @_createEvents()
-      # @_observeProps()
-
       @_dom()
+
+      @_removeEvents()
+      @_bindInputs()
+      @_createClasses()
+      @_createAttrs()
+      @_createEvents()
+      @_observeProps()
+
       if _.contains(_toRender, @)
         _.remove(_toRender, @)
 
@@ -542,39 +598,46 @@ module.exports =
     _dom: ->
       return if _status == S_INITIALIZING
 
-      uuid = @_uniqueId or _.uniqueId()
+      uuid = @_uniqueId
 
-      css = {}
-      for key, value of @getCSS()
-        if key.match(/\:host/gi)
-          key = key.replace(/\:host/gi, ".#{@_elementName}-#{uuid}")
+      if uuid?
+        css = {}
+        for key, value of @getCSS()
+          if key.match(/\:host/gi)
+            key = key.replace(/\:host/gi, ".#{@_elementName}-#{uuid}")
+          else
+            key = ".#{@_elementName}-#{uuid} #{key}"
+          css[key] = value
+
+        style = ccss.compile(css)
+        vs = fromHTML("<style>#{style}</style>")
+        if !@_vdom_style?
+          @_el_style = create(vs)
         else
-          key = ".#{@_elementName}-#{uuid} #{key}"
-        css[key] = value
+          patches = diff(@_vdom_style, vs);
+          @_el_style = patch(@_el_style, patches);
+        @_vdom_style = vs;
 
-      style = ccss.compile(css)
-      vs = fromHTML("<style>#{style}</style>")
-      if !@_vdom_style?
-        @_el_style = create(vs)
-      else
-        patches = diff(@_vdom_style, vs);
-        @_el_style = patch(@_el_style, patches);
-      @_vdom_style = vs;
+        # html = @render()
+        # if _.isFunction(html)
+        #   html = html.call(@)
+        # if _.isArray(html)
+        #   html = "<div>#{stringifyContents(html)}</div>"
+        # if _.isEmpty(html)
+        #   html = '<div></div>'
+        # v = fromHTML(html)
 
-      html = @render()
-      if _.isFunction(html)
-        html = html.call(@)
-      if _.isArray(html)
-        html = "<div>#{stringifyContents(html)}</div>"
-      if _.isEmpty(html)
-        html = '<div></div>'
-      v = fromHTML(html)
-      if !@_vdom?
-        @_el = create(v)
-      else
-        patches = diff(@_vdom, v);
-        @_el = patch(@_el, patches);
-      @_vdom = v;
+        v = @render()
+
+        if _.isArray(v) or !v?
+          v = new VNode('div', {}, v)
+
+        if !@_vdom?
+          @_el = create(v)
+        else
+          patches = diff(@_vdom, v);
+          @_el = patch(@_el, patches);
+        @_vdom = v;
 
       if @updated?
         @updated()
@@ -592,30 +655,36 @@ module.exports =
 
     getCSS: ->
       c = {}
-      if @__super__?
-        c = _.deepExtend({}, super, c)
+      # if @__$super__?.getCSS?
+        # _.deepExtend(c, @__$super__.getCSS())
       if @__proto__?.getCSS?
-        c = _.deepExtend({}, @__proto__.getCSS(), c)
-      _.deepExtend({}, c, @css)
+        _.deepExtend(c, @__proto__.getCSS())
+      if @hasOwnProperty('css')
+        _.deepExtend(c, @css)
+      return c
 
 
     getProps: ->
       p = {}
-      if @__super__?
-        p = _.extend({}, super, p)
+      # if @__$super__?.getProps?
+        # _.extend(p, @__$super__.getProps())
       if @__proto__?.getProps?
-        p = _.extend({}, @__proto__.getProps(), p)
-      _.extend(p, @props)
+        _.extend(p, @__proto__.getProps())
+      if @hasOwnProperty('props')
+        _.extend(p, @props)
+      return p
 
 
     getAttrs: ->
       a = {}
-      if @__super__?
-        a = _.extend({}, super, a)
+      # if @__$super__?.getAttrs?
+      #   _.extend(a, @__$super__.getAttrs())
       if @__proto__?.getAttrs?
-        a = _.extend({}, @__proto__.getAttrs(), a)
+        _.extend(a, @__proto__.getAttrs())
+      if @hasOwnProperty('attrs')
+        _.extend(a, @attrs)
       r = {}
-      for key, value of _.extend(a, @attrs)
+      for key, value of a
         if !key.startsWith('on-')
           r[key] = value
       return r
@@ -623,41 +692,45 @@ module.exports =
 
     getEvents: ->
       e = {}
-      if @__super__?
-        e = _.extend({}, super, e)
+      # if @__$super__?.getEvents?
+        # _.extend(e, @__$super__.getEvents())
       if @__proto__?.getEvents?
-        e =_.extend({}, @__proto__.getEvents(), e)
+        _.extend(e, @__proto__.getEvents())
+      if @hasOwnProperty('events')
+        _.extend(e, @events)
       r = {}
-      for key, value of _.extend(e, @attrs)
+      for key, value of @getAttrs()
         if key.startsWith('on-')
           r[key] = value
-      for key, value of @events
+      for key, value of e
         r[key] = value
       return r
 
 
     getClasses: ->
       c = []
-      if @__super__?
-        c = _.extend([], super, c)
+      # if @__$super__?.getClasses?
+        # _.extend(c, @__$super__.getClasses())
       if @__proto__?.getClasses?
-        c = _.extend([], @__proto__.getClasses(), c)
-      _.extend(c, @classes)
+        _.extend(c, @__proto__.getClasses())
+      if @hasOwnProperty('classes')
+        _.extend(c, @classes)
+      return c
 
 
-    css: {}
+    # css: {}
 
 
-    props: {}
+    # props: {}
 
 
-    attrs: {}
+    # attrs: {}
 
 
-    events: {}
+    # events: {}
 
 
-    classes: []
+    # classes: []
 
 
     created: ->

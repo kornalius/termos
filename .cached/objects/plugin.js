@@ -11,27 +11,31 @@
       proto = constructor.prototype;
       name = this.prototype.constructor.name;
       if (proto.__plugins == null) {
-        proto.__plugins = {};
+        proto.__plugins = [];
       }
-      if (proto.__plugins[name] == null) {
+      if (!_.find(proto.__plugins, 'name', name)) {
         pp = {
           extended: [],
           behaviors: {},
           objects: {}
         };
-        proto.__plugins[name] = pp;
+        proto.__plugins.push({
+          name: name,
+          data: pp
+        });
         if (proto.__$callBehaviors__ == null) {
           proto.__$callBehaviors__ = function() {
-            var args, fn, i, k, key, len, p, ref, ref1, results;
+            var args, fn, i, j, key, len, len1, p, pi, ref, ref1, results;
             key = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
             results = [];
             ref = this.__plugins;
-            for (k in ref) {
-              p = ref[k];
+            for (i = 0, len = ref.length; i < len; i++) {
+              pi = ref[i];
+              p = pi.data;
               if (p.behaviors[key] != null) {
                 ref1 = p.behaviors[key];
-                for (i = 0, len = ref1.length; i < len; i++) {
-                  fn = ref1[i];
+                for (j = 0, len1 = ref1.length; j < len1; j++) {
+                  fn = ref1[j];
                   results.push(fn.apply(this, args));
                 }
               }
@@ -41,15 +45,16 @@
         }
         if (proto.__$getObjects__ == null) {
           proto.__$getObjects__ = function(key) {
-            var d, i, k, len, p, ref, ref1, results;
+            var d, i, j, len, len1, p, pi, ref, ref1, results;
             results = {};
             ref = this.__plugins;
-            for (k in ref) {
-              p = ref[k];
+            for (i = 0, len = ref.length; i < len; i++) {
+              pi = ref[i];
+              p = pi.data;
               if (p.objects[key] != null) {
                 ref1 = p.objects[key];
-                for (i = 0, len = ref1.length; i < len; i++) {
-                  d = ref1[i];
+                for (j = 0, len1 = ref1.length; j < len1; j++) {
+                  d = ref1[j];
                   _.deepExtend(results, d);
                 }
               }
@@ -72,9 +77,7 @@
               pp.behaviors[key] = [];
             }
             if (proto[k] == null) {
-              if (proto[key] != null) {
-                pp.behaviors[key].push(proto[key]);
-              }
+              pp.behaviors[key].push(proto[key]);
               proto[key] = new Function("return this.__$callBehaviors__.apply(this, ['" + key + "'].concat(Array.from(arguments)));");
               proto[k] = true;
             }
@@ -85,7 +88,8 @@
               pp.objects[key] = [];
             }
             if (proto[k] == null) {
-              if (proto[key] != null) {
+              if (proto.hasOwnProperty(key)) {
+                debugger;
                 pp.objects[key].push(proto[key]);
               }
               Object.defineProperty(proto, key, {
@@ -111,8 +115,9 @@
       proto = constructor.prototype;
       name = this.prototype.constructor.name;
       if (proto.__plugins != null) {
-        return delete proto.__plugins[name];
+        delete proto.__plugins[name];
       }
+      return _.remove(proto.__plugins_order, name);
     };
 
     return Plugin;

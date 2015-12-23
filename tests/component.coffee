@@ -41,7 +41,7 @@ class MyComponent extends MyBaseComponent
       'font-style': 'italic'
 
   props:
-    prop1: true
+    prop1: 'FUCK THE'
 
   attrs:
     attr2: 'Some Value'

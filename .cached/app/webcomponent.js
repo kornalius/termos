@@ -1,5 +1,5 @@
 (function() {
-  var ArrayObserver, CompoundObserver, EventEmitter, ObjectObserver, ObserverTransform, Path, PathObserver, PropertyAccessors, S_INITIALIZING, S_NONE, S_RENDERING, VNode, VText, WebComponent, _appendElement, _classify, _createElement, _elementConstructor, _isElementRegistered, _renderAll, _status, _toRender, attrObjects, attrPairs, ccss, create, createElementFn, diff, elements, escape, fromHTML, hasObjectObserve, html, isEmpty, isSelector, isThunk, isVNode, isVText, j, len, parseAttrs, patch, raf, ref, ref1, stringifyAttr, stringifyAttrs, stringifyContents, tag, toHTML,
+  var ArrayObserver, CompoundObserver, EventEmitter, ObjectObserver, ObserverTransform, Path, PathObserver, PropertyAccessors, S_INITIALIZING, S_NONE, S_RENDERING, VNode, VText, WebComponent, _appendElement, _classify, _createElement, _elementConstructor, _isElementRegistered, _renderAll, _status, _toRender, ccss, create, createElementFn, diff, elements, escape, fromHTML, hasObjectObserve, html, isEmpty, isSelector, isThunk, isVNode, isVText, j, len, parseAttrs, patch, processContents, raf, ref, ref1, tag, toHTML,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
@@ -52,39 +52,6 @@
     s = s.replace(/"/g, '&quot;');
     s = s.replace(/'/g, '&#39;');
     return s;
-  };
-
-  attrObjects = {};
-
-  attrPairs = function(obj) {
-    var k, r;
-    r = [];
-    for (k in obj) {
-      if (obj.hasOwnProperty(k)) {
-        r.push([k, obj[k]]);
-      }
-    }
-    return r;
-  };
-
-  stringifyAttr = function(k, v) {
-    var id;
-    if (_.isPlainObject(v)) {
-      id = _.uniqueId();
-      attrObjects[id] = v;
-      v = "[[" + id + "]]";
-    }
-    return (escape(k)) + "=\"" + (escape(v)) + "\"";
-  };
-
-  stringifyAttrs = function(attrs) {
-    var i, j, pairs, r, ref2;
-    pairs = attrPairs(attrs);
-    r = [];
-    for (i = j = 0, ref2 = pairs.length; 0 <= ref2 ? j < ref2 : j > ref2; i = 0 <= ref2 ? ++j : --j) {
-      r.push(stringifyAttr(pairs[i][0], pairs[i][1]));
-    }
-    return r.join(' ');
   };
 
   parseAttrs = function(str) {
@@ -156,57 +123,78 @@
     return attrs;
   };
 
-  stringifyContents = function(contents) {
-    var c, j, len, r, str;
+  processContents = function(contents) {
+    var c, j, len, r, rc;
+    r = [];
     if (_.isArray(contents)) {
-      str = '';
       for (j = 0, len = contents.length; j < len; j++) {
         c = contents[j];
-        str += stringifyContents(c);
+        if (!(c != null)) {
+          continue;
+        }
+        rc = processContents(c);
+        if (_.isArray(rc)) {
+          if (rc.length === 1) {
+            rc = rc[0];
+          } else if (rc.length === 0) {
+            rc = null;
+          }
+        }
+        if (rc != null) {
+          r.push(rc);
+        }
       }
-      return str;
     } else if (_.isFunction(contents)) {
       r = contents.call(this);
-      if (r == null) {
-        r = '';
-      }
+    } else if (_.isString(contents)) {
+      r = new VText(contents);
+    } else if (contents instanceof VNode || contents instanceof VText) {
+      r = contents;
+    }
+    if (_.isArray(r)) {
       return r;
-    } else if (contents != null) {
-      return contents.toString();
     } else {
-      return '';
+      return [r];
     }
   };
 
   isSelector = function(string) {
     var ref2;
-    return string.length > 1 && ((ref2 = string.charAt(0)) === '#' || ref2 === '.');
+    return _.isString(string) && string.length > 1 && ((ref2 = string.charAt(0)) === '#' || ref2 === '.');
   };
 
-  createElementFn = function(tag, empty) {
+  createElementFn = function(tag, proto, empty) {
     return function(attrs, contents) {
-      var attrstr, inner, selector;
-      selector = _.isString(attrs) ? isSelector(attrs) : false;
-      if (_.isString(attrs) && _.isArray(contents)) {
-
-      } else if (_.isString(attrs) && !selector) {
-        contents = attrs;
-        attrs = null;
-      } else if (_.isArray(attrs)) {
+      var inner, keys, properties, selector;
+      if (_.isArray(attrs)) {
         contents = attrs;
         attrs = null;
       }
-      attrs = attrs || {};
-      if (_.isString(attrs) && selector) {
-        attrs = parseAttrs(attrs);
+      selector = isSelector(attrs);
+      if (_.isString(attrs)) {
+        if (selector) {
+          attrs = parseAttrs(attrs);
+        } else {
+          contents = attrs;
+          attrs = null;
+        }
       }
-      attrstr = stringifyAttrs(attrs);
-      inner = stringifyContents(contents);
-      if (empty) {
-        return "<" + tag + ((attrstr != null ? attrstr.length : void 0) ? ' ' + attrstr : '') + "/>";
-      } else {
-        return "<" + tag + ((attrstr != null ? attrstr.length : void 0) ? ' ' + attrstr : '') + ">" + inner + "</" + tag + ">";
+      if (!_.isPlainObject(attrs)) {
+        attrs = {};
       }
+      if (_.isPlainObject(contents)) {
+        _.extend(attrs, contents);
+        contents = null;
+      }
+      inner = processContents(contents);
+      keys = (proto != null ? proto.props : void 0) != null ? _.keys(proto.props) : [];
+      properties = _.pick(attrs, function(v, k) {
+        return _.contains(keys, k);
+      });
+      properties.attributes = _.pick(attrs, function(v, k) {
+        return !_.contains(keys, k);
+      });
+      return new VNode(tag, properties, inner);
     };
   };
 
@@ -255,13 +243,7 @@
   };
 
   _createElement = function(name, attrs) {
-    var el, key, value;
-    el = document.createElement(name);
-    for (key in attrs) {
-      value = attrs[key];
-      el.setAttribute(key, value === true ? '' : value.toString());
-    }
-    return el;
+    return document.createElement(name, attrs);
   };
 
   _appendElement = function(name, selector, attrs) {
@@ -364,20 +346,19 @@
         dname = _.dasherize(this.name);
         if (!_isElementRegistered(dname)) {
           _status = S_INITIALIZING;
-          cname = _.camelize(this.name);
+          cname = this.name.toLowerCase();
           proto = Object.create(this.prototype.constructor).prototype;
           proto._componentName = cname;
           proto._elementName = dname;
           e = document.registerElement(dname, {
             prototype: proto
           });
-          html[cname] = createElementFn(dname, false);
+          html[cname] = createElementFn(dname, proto, false);
           return _status = S_NONE;
         }
       };
 
       WebComponent.prototype.createdCallback = function() {
-        var uuid;
         _.extend(this.__proto__, EventEmitter.prototype);
         this.isReady = false;
         this.isAttached = false;
@@ -385,12 +366,11 @@
         this._vdom_style = null;
         this._observers = [];
         if (_status !== S_INITIALIZING) {
+          this._uniqueId = _.uniqueId();
+          this.classList.add(this._elementName + "-" + this._uniqueId);
           if (this.created != null) {
             this.created();
           }
-          uuid = _.uniqueId();
-          this._uniqueId = uuid;
-          this.classList.add(this._elementName + "-" + uuid);
         }
         return this._prepare();
       };
@@ -485,11 +465,43 @@
         results = [];
         for (key in ref2) {
           value = ref2[key];
-          if (!this.hasAttribute(key) && (value != null) && value !== false) {
+          if (key === 'title') {
+            debugger;
+          }
+          if ((value != null) && value !== false && !this.hasAttribute(key)) {
             results.push(this.setAttribute(key, value === true ? '' : value.toString()));
           } else {
             results.push(void 0);
           }
+        }
+        return results;
+      };
+
+      WebComponent.prototype._observeProps = function() {
+        var k, l, len1, o, ref2, ref3, results, that, v;
+        if (_status === S_INITIALIZING) {
+          return;
+        }
+        ref2 = this._observers;
+        for (l = 0, len1 = ref2.length; l < len1; l++) {
+          o = ref2[l];
+          o.close();
+        }
+        this._observers = [];
+        that = this;
+        ref3 = this.getProps();
+        results = [];
+        for (k in ref3) {
+          v = ref3[k];
+          this[k] = v;
+          results.push(this._observe(k, function(e) {
+            var n;
+            n = k + "Changed";
+            if (that[n] != null) {
+              that[n].call(that, n, e.newValue);
+            }
+            return that.invalidate();
+          }));
         }
         return results;
       };
@@ -587,31 +599,18 @@
         return this._createIds();
       };
 
-      WebComponent.prototype._observeProps = function() {
-        var k, ref2, results, v;
-        if (_status === S_INITIALIZING) {
-          return;
-        }
-        ref2 = this.getProps();
-        results = [];
-        for (k in ref2) {
-          v = ref2[k];
-          this[k] = v;
-          results.push(this._observe(k, ((function(_this) {
-            return function() {
-              return _this.invalidate();
-            };
-          })(this))));
-        }
-        return results;
-      };
-
       WebComponent.prototype.attachedCallback = function() {
         if (this.ready != null) {
           this.ready();
         }
         this.isReady = true;
         this._dom();
+        this._removeEvents();
+        this._bindInputs();
+        this._createClasses();
+        this._createAttrs();
+        this._createEvents();
+        this._observeProps();
         if (_.contains(_toRender, this)) {
           _.remove(_toRender, this);
         }
@@ -654,45 +653,40 @@
         if (_status === S_INITIALIZING) {
           return;
         }
-        uuid = this._uniqueId || _.uniqueId();
-        css = {};
-        ref2 = this.getCSS();
-        for (key in ref2) {
-          value = ref2[key];
-          if (key.match(/\:host/gi)) {
-            key = key.replace(/\:host/gi, "." + this._elementName + "-" + uuid);
-          } else {
-            key = "." + this._elementName + "-" + uuid + " " + key;
+        uuid = this._uniqueId;
+        if (uuid != null) {
+          css = {};
+          ref2 = this.getCSS();
+          for (key in ref2) {
+            value = ref2[key];
+            if (key.match(/\:host/gi)) {
+              key = key.replace(/\:host/gi, "." + this._elementName + "-" + uuid);
+            } else {
+              key = "." + this._elementName + "-" + uuid + " " + key;
+            }
+            css[key] = value;
           }
-          css[key] = value;
+          style = ccss.compile(css);
+          vs = fromHTML("<style>" + style + "</style>");
+          if (this._vdom_style == null) {
+            this._el_style = create(vs);
+          } else {
+            patches = diff(this._vdom_style, vs);
+            this._el_style = patch(this._el_style, patches);
+          }
+          this._vdom_style = vs;
+          v = this.render();
+          if (_.isArray(v) || (v == null)) {
+            v = new VNode('div', {}, v);
+          }
+          if (this._vdom == null) {
+            this._el = create(v);
+          } else {
+            patches = diff(this._vdom, v);
+            this._el = patch(this._el, patches);
+          }
+          this._vdom = v;
         }
-        style = ccss.compile(css);
-        vs = fromHTML("<style>" + style + "</style>");
-        if (this._vdom_style == null) {
-          this._el_style = create(vs);
-        } else {
-          patches = diff(this._vdom_style, vs);
-          this._el_style = patch(this._el_style, patches);
-        }
-        this._vdom_style = vs;
-        html = this.render();
-        if (_.isFunction(html)) {
-          html = html.call(this);
-        }
-        if (_.isArray(html)) {
-          html = "<div>" + (stringifyContents(html)) + "</div>";
-        }
-        if (_.isEmpty(html)) {
-          html = '<div></div>';
-        }
-        v = fromHTML(html);
-        if (this._vdom == null) {
-          this._el = create(v);
-        } else {
-          patches = diff(this._vdom, v);
-          this._el = patch(this._el, patches);
-        }
-        this._vdom = v;
         if (this.updated != null) {
           return this.updated();
         }
@@ -712,40 +706,39 @@
       WebComponent.prototype.getCSS = function() {
         var c, ref2;
         c = {};
-        if (this.__super__ != null) {
-          c = _.deepExtend({}, WebComponent.__super__.getCSS.apply(this, arguments), c);
-        }
         if (((ref2 = this.__proto__) != null ? ref2.getCSS : void 0) != null) {
-          c = _.deepExtend({}, this.__proto__.getCSS(), c);
+          _.deepExtend(c, this.__proto__.getCSS());
         }
-        return _.deepExtend({}, c, this.css);
+        if (this.hasOwnProperty('css')) {
+          _.deepExtend(c, this.css);
+        }
+        return c;
       };
 
       WebComponent.prototype.getProps = function() {
         var p, ref2;
         p = {};
-        if (this.__super__ != null) {
-          p = _.extend({}, WebComponent.__super__.getProps.apply(this, arguments), p);
-        }
         if (((ref2 = this.__proto__) != null ? ref2.getProps : void 0) != null) {
-          p = _.extend({}, this.__proto__.getProps(), p);
+          _.extend(p, this.__proto__.getProps());
         }
-        return _.extend(p, this.props);
+        if (this.hasOwnProperty('props')) {
+          _.extend(p, this.props);
+        }
+        return p;
       };
 
       WebComponent.prototype.getAttrs = function() {
-        var a, key, r, ref2, ref3, value;
+        var a, key, r, ref2, value;
         a = {};
-        if (this.__super__ != null) {
-          a = _.extend({}, WebComponent.__super__.getAttrs.apply(this, arguments), a);
-        }
         if (((ref2 = this.__proto__) != null ? ref2.getAttrs : void 0) != null) {
-          a = _.extend({}, this.__proto__.getAttrs(), a);
+          _.extend(a, this.__proto__.getAttrs());
+        }
+        if (this.hasOwnProperty('attrs')) {
+          _.extend(a, this.attrs);
         }
         r = {};
-        ref3 = _.extend(a, this.attrs);
-        for (key in ref3) {
-          value = ref3[key];
+        for (key in a) {
+          value = a[key];
           if (!key.startsWith('on-')) {
             r[key] = value;
           }
@@ -754,25 +747,24 @@
       };
 
       WebComponent.prototype.getEvents = function() {
-        var e, key, r, ref2, ref3, ref4, value;
+        var e, key, r, ref2, ref3, value;
         e = {};
-        if (this.__super__ != null) {
-          e = _.extend({}, WebComponent.__super__.getEvents.apply(this, arguments), e);
-        }
         if (((ref2 = this.__proto__) != null ? ref2.getEvents : void 0) != null) {
-          e = _.extend({}, this.__proto__.getEvents(), e);
+          _.extend(e, this.__proto__.getEvents());
+        }
+        if (this.hasOwnProperty('events')) {
+          _.extend(e, this.events);
         }
         r = {};
-        ref3 = _.extend(e, this.attrs);
+        ref3 = this.getAttrs();
         for (key in ref3) {
           value = ref3[key];
           if (key.startsWith('on-')) {
             r[key] = value;
           }
         }
-        ref4 = this.events;
-        for (key in ref4) {
-          value = ref4[key];
+        for (key in e) {
+          value = e[key];
           r[key] = value;
         }
         return r;
@@ -781,24 +773,14 @@
       WebComponent.prototype.getClasses = function() {
         var c, ref2;
         c = [];
-        if (this.__super__ != null) {
-          c = _.extend([], WebComponent.__super__.getClasses.apply(this, arguments), c);
-        }
         if (((ref2 = this.__proto__) != null ? ref2.getClasses : void 0) != null) {
-          c = _.extend([], this.__proto__.getClasses(), c);
+          _.extend(c, this.__proto__.getClasses());
         }
-        return _.extend(c, this.classes);
+        if (this.hasOwnProperty('classes')) {
+          _.extend(c, this.classes);
+        }
+        return c;
       };
-
-      WebComponent.prototype.css = {};
-
-      WebComponent.prototype.props = {};
-
-      WebComponent.prototype.attrs = {};
-
-      WebComponent.prototype.events = {};
-
-      WebComponent.prototype.classes = [];
 
       WebComponent.prototype.created = function() {};
 

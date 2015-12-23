@@ -1,5 +1,5 @@
 { BaseView, CustomEvent } = TOS
-{ textarea, div, span, TextCaretView } = TOS.html
+{ textarea, div, span, textcaretview } = TOS.html
 
 # CodeMirror = require('codemirror')
 
@@ -21,7 +21,7 @@ TOS.TextEditView = class TextEditView extends BaseView
       'border': '1px solid black'
       'font-family': 'SourceCodePro, monospace'
 
-  attrs:
+  props:
     caretBlinkRate: 500
     caretExtraWidth: 0
     caretExtraHeight: 0
@@ -87,17 +87,17 @@ TOS.TextEditView = class TextEditView extends BaseView
   # render: ->
   #   textarea()
 
-  @::accessor 'caret', ->
-    if @carets.length == 0
-      return @addCaret()
+  @::accessor 'cursor', ->
+    if @cursors.length == 0
+      return @addCursor()
     else
-      return @carets[0]
+      return @cursors[0]
 
   textChanged: (value) ->
     @async ->
       if value? and @_buffer? and @_buffer.text() != value
         @_buffer.setText(value)
-        @setCaret()
+        @setCursor()
         @invalidate()
 
   computeCharSize: ->
@@ -117,7 +117,7 @@ TOS.TextEditView = class TextEditView extends BaseView
   created: ->
     super
 
-    @carets = []
+    @cursors = []
     @_viewport = { x: 0, y: 0 }
     @tabIndex = 0
 
@@ -127,7 +127,7 @@ TOS.TextEditView = class TextEditView extends BaseView
     if @parentNode?
       @_buffer = new TextBuffer(@, '')
       @computeCharSize()
-      @setCaret()
+      @setCursor()
 
       @_buffer.on 'line:change', (row) =>
         @scrollInView()
@@ -149,76 +149,76 @@ TOS.TextEditView = class TextEditView extends BaseView
 
       @key ['space'].concat("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()[]{}\\|\'\";:,<.>/?-=_+".split('')), (e) =>
         console.log @, e
-        for c in @carets
-          c.cursor.insert(String.fromCharCode(e.which))
+        for c in @cursors
+          c.insert(String.fromCharCode(e.which))
         @scrollInView()
         e.stopPropagation()
 
       @key 'backspace', (e) =>
-        for c in @carets
-          c.cursor.deleteBack()
+        for c in @cursors
+          c.deleteBack()
         e.stopPropagation()
 
       @key ['ctrl+backspace', 'alt+backspace'], (e) =>
-        for c in @carets
-          c.cursor.deleteWordBack()
+        for c in @cursors
+          c.deleteWordBack()
         e.stopPropagation()
 
       @key 'del', (e) =>
-        for c in @carets
-          c.cursor.deleteForward()
+        for c in @cursors
+          c.deleteForward()
         e.stopPropagation()
 
       @key ['ctrl+del', 'alt+del'], (e) =>
-        for c in @carets
-          c.cursor.deleteWordForward()
+        for c in @cursors
+          c.deleteWordForward()
         e.stopPropagation()
 
       @key 'left', (e) =>
-        for c in @carets
-          c.cursor.moveLeft()
+        for c in @cursors
+          c.moveLeft()
         @scrollInView()
         e.stopPropagation()
 
       @key 'right', (e) =>
-        for c in @carets
-          c.cursor.moveRight()
+        for c in @cursors
+          c.moveRight()
         @scrollInView()
         e.stopPropagation()
 
       @key 'up', (e) =>
-        for c in @carets
-          c.cursor.moveUp()
+        for c in @cursors
+          c.moveUp()
         @scrollInView()
         e.stopPropagation()
 
       @key 'down', (e) =>
-        for c in @carets
-          c.cursor.moveDown()
+        for c in @cursors
+          c.moveDown()
         @scrollInView()
         e.stopPropagation()
 
       @key ['ctrl+left', 'alt+left'], (e) =>
-        for c in @carets
-          c.cursor.moveToPrevWord()
+        for c in @cursors
+          c.moveToPrevWord()
         @scrollInView()
         e.stopPropagation()
 
       @key ['ctrl+right', 'alt+right'], (e) =>
-        for c in @carets
-          c.cursor.moveToNextWord()
+        for c in @cursors
+          c.moveToNextWord()
         @scrollInView()
         e.stopPropagation()
 
       @key ['home', 'command+left'], (e) =>
-        for c in @carets
-          c.cursor.moveToLineBegin()
+        for c in @cursors
+          c.moveToLineBegin()
         @scrollInView()
         e.stopPropagation()
 
       @key ['end', 'command+right'], (e) =>
-        for c in @carets
-          c.cursor.moveToLineEnd()
+        for c in @cursors
+          c.moveToLineEnd()
         @scrollInView()
         e.stopPropagation()
 
@@ -227,14 +227,17 @@ TOS.TextEditView = class TextEditView extends BaseView
         e.stopPropagation()
 
   render: (content) ->
-    div '.edit-view', [
-      if @_buffer?
-        for l in @_buffer.lines
-          div [
-            span l
-          ]
-        # for c in @carets
-    ]
+    cnt = []
+
+    if @_buffer?
+      for l in @_buffer.lines
+        cnt.push div [
+          span l
+        ]
+      for c in @cursors
+        cnt.push textcaretview ".caret-view", textCursor: c, row: c.row, col: c.col, caretBlinkRate: @caretBlinkRate, caretExtraWidth: @caretExtraWidth, caretExtraHeight: @caretExtraHeight
+
+    div '.edit-view', cnt
 
   pixelToTextPoint: (pixel) -> @textPoint(Math.trunc(pixel.y / @charSize.height), Math.trunc(pixel.x / @charSize.width))
 
@@ -312,98 +315,104 @@ TOS.TextEditView = class TextEditView extends BaseView
       end = @textPointToIndex(r.end) - 1
       return point >= begin and point <= end
 
-  caretToTextPoint: (caret) ->
-    if caret.cursor.region?
-      return caret.cursor.region.end
-    else if caret.cursor.point?
-      return caret.cursor.point
+  cursorToTextPoint: (cursor) ->
+    if cursor?.region?
+      return cursor.region.end
+    else if cursor?.point?
+      return cursor.point
     else
       return @textPoint()
 
-  caretRegion: (caret) ->
-    if caret.cursor.region?
-      return caret.cursor.region
-    else if caret.cursor.point?
-      return @textRegion(caret.cursor.point)
+  cursorRegion: (cursor) ->
+    if cursor?.region?
+      return cursor.region
+    else if cursor?.point?
+      return @textRegion(cursor.point)
     else
       return @textRegion()
 
-  setCaret: (caret, point) ->
-    if !(caret instanceof TextCaretView)
-      point = caret
-      caret = null
-    if !caret?
-      caret = @caret
+  setCursor: (cursor, point) ->
+    if !(cursor instanceof TextCursor)
+      point = cursor
+      cursor = null
+    if !cursor?
+      cursor = @cursor
     if !point?
       point = @textPoint()
     if @isValidTextPoint(point)
-      caret.moveTo(point)
-    return caret
+      cursor.moveTo(point)
+    return cursor
 
-  addCaret: (point) ->
+  addCursor: (point) ->
     if !point?
-      point = { x: 0, y: 0}
-    caret = null
+      point = { row: 0, col: 0}
+
+    cursor = null
+
     if @isValidTextPoint(point)
-      caret = document.createElement('text-caret-view', caretBlinkRate: @attr 'caretBlinkRate', caretExtraWidth: @attr 'caretExtraWidth', caretExtraHeight: @attr 'caretExtraHeight')
-      caret.moveTo(point)
-      @carets.push caret
+      cursor = new TextCursor(@_buffer, point)
+      @cursors.push cursor
 
-      caret.on 'move', =>
-        @emit 'text.caret.view.move', target: caret
-        @scrollInView()
+      @invalidate()
 
-    return caret
+      cursor.on 'move', =>
+        if cursor.caret?
+          cursor.caret.updateCaret()
+          @emit 'text.caret.view.move', target: cursor.caret
+          @scrollInView()
 
-  removeCaret: (caret) ->
-    if !(caret instanceof TextCaretView)
-      point = caret
-      caret = null
-    if caret? and caret != @caret
-      _.remove(@carets, caret)
+    return cursor
+
+  removeCursor: (cursor) ->
+    if !(cursor instanceof TextCursor)
+      point = cursor
+      cursor = null
+    if cursor? and cursor != @cursor
+      _.remove(@cursors, cursor)
+      @invalidate()
     return @
 
-  moveCaret: (caret, point) ->
-    if !(caret instanceof TextCaretView)
-      point = caret
-      caret = null
-    if !caret?
-      caret = @caret
+  moveCursor: (cursor, point) ->
+    if !(cursor instanceof TextCursor)
+      point = cursor
+      cursor = null
+    if !cursor?
+      cursor = @cursor
     if @isValidTextPoint(point)
-      caret.moveTo(point)
+      cursor.moveTo(point)
     return @
 
-  select: (caret, region) ->
-    if !(caret instanceof TextCaretView)
-      region = caret
-      caret = null
-    if !caret?
-      caret = @caret
+  select: (cursor, region) ->
+    if !(cursor instanceof TextCursor)
+      region = cursor
+      cursor = null
+    if !cursor?
+      cursor = @cursor
     if @isValidTextPoint(region.begin) and @isValidTextPoint(region.end)
-      caret.select(@textRegion(region))
+      cursor.select(@textRegion(region))
     return @
 
-  caretAt: (point, regionOnly = false) ->
-    for c in @carets
-      if c.cursor.point? and c.cursor.point.col == point.col and c.cursor.point.row == point.row and !regionOnly
+  cursorAt: (point, regionOnly = false) ->
+    for c in @cursors
+      if c.point? and c.point.col == point.col and c.point.row == point.row and !regionOnly
         return c
-      else if c.cursor.region? and @textRegionContains(c.cursor.region, point)
+      else if c.region? and @textRegionContains(c.region, point)
         return c
     return null
 
-  caretAtPixel: (pixel) -> @caretAt(@pixelToTextPoint(pixel))
+  cursorAtPixel: (pixel) -> @cursorAt(@pixelToTextPoint(pixel))
 
   isValidTextPoint: (point) -> (@_contentSize.width == 0 and @_contentSize.height == 0) or (point.col >= 0 and point.col < @_contentSize.width and point.row >= 0 and point.row < @_contentSize.height)
 
   scrollBy: (pos) ->
-    for c in @carets
-      c.cursor.moveTo(@fromTextPoint(@caretToTextPoint(tc)))
+    for c in @cursors
+      c.moveTo(@fromTextPoint(@cursorToTextPoint(tc)))
     @invalidate()
     return @
 
   scrollInView: (point, hcenter = false, vcenter = false) ->
     if !point?
-      point = @caretToTextPoint()
+      point = @cursorToTextPoint()
     if !point?
       point = @textPoint()
     # super @point(point.col, point.row), hcenter, vcenter
@@ -425,7 +434,7 @@ TOS.TextEditView = class TextEditView extends BaseView
 
     if !e.defaultPrevented
       if @_clickCount == 1
-        @setCaret(@caret, @_pressed.text.pos)
+        @setCursor(@caret, @_pressed.text.pos)
 
       @scrollInView()
       @invalidate()
@@ -439,7 +448,7 @@ TOS.TextEditView = class TextEditView extends BaseView
       tpt = @pixelToTextPoint(@_pressed.pixel.pos)
       @_pressed.text.pos = tpt
       @_pressed.text.distance = tpt.distance(@_pressed.text.start)
-      tcp = @caretToTextPoint(@caret)
+      tcp = @cursorToTextPoint(@caret)
 
       if tpt.row != tcp.row or tpt.col != tcp.col
         @select(@caret, @textRegion(@_pressed.text.start, tpt))

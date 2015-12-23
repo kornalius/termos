@@ -32,9 +32,22 @@
     };
 
     PanelView.prototype.render = function(content) {
-      var ruler;
+      var cnt, ruler;
       ruler = false;
-      return div('.shadow-1.p1', [this.attr('icon') ? (ruler = true, i("#icon.mr1.h3.ic-" + (this.attr('icon')))) : void 0, this.attr('title') ? (ruler = true, span('#title.h4.bold', this.attr('title'))) : void 0, ruler ? hr() : void 0, div('#content', [content])]);
+      cnt = [];
+      if (this.attr('icon')) {
+        ruler = true;
+        cnt.push(i("#icon.mr1.h3.ic-" + (this.attr('icon'))));
+      }
+      if (this.attr('title')) {
+        ruler = true;
+        cnt.push(span('#title.h4.bold', this.attr('title')));
+      }
+      if (ruler) {
+        cnt.push(hr());
+      }
+      cnt.push(div('#content', content));
+      return div('.shadow-1.p1', cnt);
     };
 
     PanelViewEdit.install(PanelView);

@@ -30,6 +30,8 @@ Element.prototype.attr = (name, value) ->
       r = true
   return r
 
+Element.prototype.addAttr = (name) -> @setAttribute(name, '')
+
 Element.prototype.hasAttr = (name) -> @hasAttribute(name)
 
 Element.prototype.removeAttr = (name) -> @removeAttribute(name)

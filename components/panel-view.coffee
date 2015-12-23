@@ -23,24 +23,22 @@ TOS.PanelView = class PanelView extends BaseView
 
   render: (content) ->
     ruler = false
-    div '.shadow-1.p1', [
+    cnt = []
 
-      if @attr('icon')
-        ruler = true
-        i "#icon.mr1.h3.ic-#{@attr('icon')}"
+    if @attr('icon')
+      ruler = true
+      cnt.push i "#icon.mr1.h3.ic-#{@attr('icon')}"
 
-      if @attr('title')
-        ruler = true
-        span '#title.h4.bold', @attr('title')
+    if @attr('title')
+      ruler = true
+      cnt.push span '#title.h4.bold', @attr('title')
 
-      if ruler
-        hr()
+    if ruler
+      cnt.push hr()
 
-      div '#content', [
-        content
-      ]
+    cnt.push div '#content', content
 
-    ]
+    div '.shadow-1.p1', cnt
 
   PanelViewEdit.install @
 

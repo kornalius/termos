@@ -26,61 +26,95 @@
       }
     };
 
-    TextCaretView.prototype.attrs = {
+    TextCaretView.prototype.props = {
       caretBlinkRate: 500,
       caretExtraWidth: 0,
-      caretExtraHeight: 0
+      caretExtraHeight: 0,
+      textCursor: null
+    };
+
+    TextCaretView.prototype.attrs = {
+      row: 0,
+      col: 0
     };
 
     TextCaretView.prototype.accessor('parentView', function() {
-      return this.parentNode.parentNode;
+      var ref2;
+      return (ref2 = this.parentNode) != null ? ref2.parentNode : void 0;
     });
 
     TextCaretView.prototype.accessor('_buffer', function() {
-      return this.parentView._buffer;
+      var ref2;
+      return (ref2 = this.parentView) != null ? ref2._buffer : void 0;
     });
 
     TextCaretView.prototype.accessor('charWidth', function() {
-      return this.parentView.charSize.width;
+      if (this.parentView != null) {
+        return this.parentView.charSize.width;
+      } else {
+        return 0;
+      }
     });
 
     TextCaretView.prototype.accessor('charHeight', function() {
-      return this.parentView.charSize.height;
+      if (this.parentView != null) {
+        return this.parentView.charSize.height;
+      } else {
+        return 0;
+      }
     });
 
-    TextCaretView.prototype.ready = function() {
-      return this.pos = {
-        x: 0,
-        y: 0
-      };
-    };
+    TextCaretView.prototype.accessor('row', function() {
+      if (this.parentView != null) {
+        return this.parentView.cursorToTextPoint(this.textCursor).row;
+      } else {
+        return 0;
+      }
+    });
+
+    TextCaretView.prototype.accessor('col', function() {
+      if (this.parentView != null) {
+        return this.parentView.cursorToTextPoint(this.textCursor).col;
+      } else {
+        return 0;
+      }
+    });
 
     TextCaretView.prototype.attached = function() {
       TextCaretView.__super__.attached.apply(this, arguments);
-      this.cursor = new TextCursor(this._buffer, 0, 0);
-      this._updateCaret();
-      if (this.attr('caretBlinkRate' !== 0)) {
-        return this._blinker = setInterval((function(_this) {
-          return function() {
-            return _this.toggleAttr('hidden');
-          };
-        })(this), this.attr('caretBlinkRate'));
+      return this.updateCaret();
+    };
+
+    TextCaretView.prototype.updateCaret = function() {
+      if (this.parentView != null) {
+        this.style.width = this.charWidth + this.caretExtraWidth + 'px';
+        this.style.height = this.charHeight + this.caretExtraHeight + 'px';
+        this.style.left = this.col * this.charWidth + 'px';
+        return this.style.top = this.row * this.charHeight + 'px';
       }
     };
 
-    TextCaretView.prototype._updateCaret = function() {
-      this.style.width = this.charWidth + this.caretExtraWidth + 'px';
-      this.style.height = this.charHeight(this.caretExtraHeight + 'px');
-      this.style.left = this.pos.x * this.charWidth + 'px';
-      return this.style.top = this.pos.y * this.charHeight + 'px';
+    TextCaretView.prototype.textCursorChanged = function(textCursor) {
+      textCursor.caret = this;
+      return this.updateCaret();
+    };
+
+    TextCaretView.prototype.rowChanged = function(row) {
+      this.row = row;
+      return this.updateCaret();
+    };
+
+    TextCaretView.prototype.colChanged = function(col) {
+      this.col = col;
+      return this.updateCaret();
     };
 
     TextCaretView.prototype.caretExtraWidthChanged = function() {
-      return this._updateCaret();
+      return this.updateCaret();
     };
 
     TextCaretView.prototype.caretExtraHeightChanged = function() {
-      return this._updateCaret();
+      return this.updateCaret();
     };
 
     TextCaretView.prototype.detached = function() {
@@ -88,29 +122,20 @@
       return clearInterval(this._blinker);
     };
 
-    TextCaretView.prototype.render = function() {
-      return div('.text-caret-view');
+    TextCaretView.prototype.moveTo = function(row, col) {
+      if (row instanceof TextPoint) {
+        col = row.row;
+        row = row.col;
+      }
+      return this.textCursor.moveTo(row, col);
     };
 
-    TextCaretView.prototype.moveTo = function(x, y) {
-      if (x instanceof TextPoint) {
-        y = x.row;
-        x = x.col;
+    TextCaretView.prototype.moveBy = function(row, col) {
+      if (row instanceof TextPoint) {
+        col = row.row;
+        row = row.col;
       }
-      this.cursor.moveTo(y, x);
-      this.pos = {
-        x: x,
-        y: y
-      };
-      return this._updateCaret();
-    };
-
-    TextCaretView.prototype.moveBy = function(x, y) {
-      if (x instanceof TextPoint) {
-        y = x.row;
-        x = x.col;
-      }
-      return this.moveTo(this.pos.x + x, this.pos.y + y);
+      return this.moveTo(this.row + col, this.col + row);
     };
 
     TextCaretView.prototype.home = function() {
@@ -122,11 +147,11 @@
     };
 
     TextCaretView.prototype.bol = function() {
-      return this.moveTo(0, this.pos.y);
+      return this.moveTo(0, this.row);
     };
 
     TextCaretView.prototype.eol = function() {
-      return this.moveTo(this.parentView._size.width - 1, this.pos.y);
+      return this.moveTo(this.parentView._size.width - 1, this.row);
     };
 
     TextCaretView.prototype.cr = function() {
@@ -141,28 +166,24 @@
       return this.left();
     };
 
-    TextCaretView.prototype.del = function() {
-      return this.parentView.eraseAt(this.pos);
-    };
-
     TextCaretView.prototype.tab = function() {
       return this.moveBy(2, 0);
     };
 
     TextCaretView.prototype.isBol = function() {
-      return this.pos.x === 0;
+      return this.col === 0;
     };
 
     TextCaretView.prototype.isEol = function() {
-      return this.pos.x === this.parentView._size.width - 1;
+      return this.col === this.parentView._size.width - 1;
     };
 
     TextCaretView.prototype.isHome = function() {
-      return this.isBol() && this.pos.y === 0;
+      return this.isBol() && this.row === 0;
     };
 
     TextCaretView.prototype.isEnd = function() {
-      return this.isEol() && this.pos.y === this.parentView._size.height - 1;
+      return this.isEol() && this.row === this.parentView._size.height - 1;
     };
 
     TextCaretView.prototype.left = function(count) {

@@ -68,7 +68,7 @@
     };
 
     MyComponent.prototype.props = {
-      prop1: true
+      prop1: 'FUCK THE'
     };
 
     MyComponent.prototype.attrs = {

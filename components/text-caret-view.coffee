@@ -13,72 +13,88 @@ TOS.TextCaretView = class TextCaretView extends BaseView
       'position': 'absolute'
       'background-color': 'black'
 
-  attrs:
+  props:
     caretBlinkRate: 500
     caretExtraWidth: 0
     caretExtraHeight: 0
+    textCursor: null
 
-  @::accessor 'parentView', -> @parentNode.parentNode
+  attrs:
+    row: 0
+    col: 0
 
-  @::accessor '_buffer', -> @parentView._buffer
+  @::accessor 'parentView', -> @parentNode?.parentNode
 
-  @::accessor 'charWidth', -> @parentView.charSize.width
+  @::accessor '_buffer', -> @parentView?._buffer
 
-  @::accessor 'charHeight', -> @parentView.charSize.height
+  @::accessor 'charWidth', -> if @parentView? then @parentView.charSize.width else 0
 
-  ready: ->
-    @pos = { x: 0, y: 0 }
+  @::accessor 'charHeight', -> if @parentView? then @parentView.charSize.height else 0
+
+  @::accessor 'row', -> if @parentView? then @parentView.cursorToTextPoint(@textCursor).row else 0
+
+  @::accessor 'col', -> if @parentView? then @parentView.cursorToTextPoint(@textCursor).col else 0
 
   attached: ->
     super
-    @cursor = new TextCursor(@_buffer, 0, 0)
-    @_updateCaret()
+    @updateCaret()
 
-    if @attr 'caretBlinkRate' != 0
-      @_blinker = setInterval(=>
-        @toggleAttr 'hidden'
-      , @attr 'caretBlinkRate')
+    # if @caretBlinkRate != 0
+      # @_blinker = setInterval(=>
+        # @toggleAttr 'hidden'
+      # , @caretBlinkRate)
 
-  _updateCaret: ->
-    @style.width = @charWidth + @caretExtraWidth + 'px'
-    @style.height = @charHeight @caretExtraHeight + 'px'
-    @style.left = @pos.x * @charWidth + 'px'
-    @style.top = @pos.y * @charHeight + 'px'
+  updateCaret: ->
+    if @parentView?
+      @style.width = @charWidth + @caretExtraWidth + 'px'
+      @style.height = @charHeight + @caretExtraHeight + 'px'
+      @style.left = @col * @charWidth + 'px'
+      @style.top = @row * @charHeight + 'px'
+
+  textCursorChanged: (textCursor) ->
+    textCursor.caret = @
+    @updateCaret()
+
+  rowChanged: (row) ->
+    @row = row
+    @updateCaret()
+
+  colChanged: (col) ->
+    @col = col
+    @updateCaret()
 
   caretExtraWidthChanged: ->
-    @_updateCaret()
+    @updateCaret()
 
   caretExtraHeightChanged: ->
-    @_updateCaret()
+    @updateCaret()
 
   detached: ->
     super
     clearInterval @_blinker
 
-  render: ->
-    div '.text-caret-view'
+  # render: ->
+    # div '.text-caret-view'
 
-  moveTo: (x, y) ->
-    if x instanceof TextPoint
-      y = x.row
-      x = x.col
-    @cursor.moveTo(y, x)
-    @pos = { x: x, y: y }
-    @_updateCaret()
+  moveTo: (row, col) ->
+    if row instanceof TextPoint
+      col = row.row
+      row = row.col
+    @textCursor.moveTo(row, col)
 
-  moveBy: (x, y) ->
-    if x instanceof TextPoint
-      y = x.row
-      x = x.col
-    @moveTo(@pos.x + x, @pos.y + y)
+  moveBy: (row, col) ->
+    if row instanceof TextPoint
+      col = row.row
+      row = row.col
+    @moveTo(@row + col, @col + row)
 
   home: -> @moveTo(0, 0)
 
   end: -> @moveTo(@parentView._size.width - 1, @parentView._size.height - 1)
 
-  bol: -> @moveTo(0, @pos.y)
+  bol: -> @moveTo(0, @row)
 
-  eol: -> @moveTo(@parentView._size.width - 1, @pos.y)
+  eol: -> @moveTo(@parentView._size.width - 1, @row)
 
   cr: -> @down().bol()
 
@@ -86,17 +102,17 @@ TOS.TextCaretView = class TextCaretView extends BaseView
 
   bs: -> @left()
 
-  del: -> @parentView.eraseAt(@pos)
+  # del: -> @parentView.eraseAt(@pos)
 
   tab: -> @moveBy(2, 0)
 
-  isBol: -> @pos.x == 0
+  isBol: -> @col == 0
 
-  isEol: -> @pos.x == @parentView._size.width - 1
+  isEol: -> @col == @parentView._size.width - 1
 
-  isHome: -> @isBol() and @pos.y == 0
+  isHome: -> @isBol() and @row == 0
 
-  isEnd: -> @isEol() and @pos.y == @parentView._size.height - 1
+  isEnd: -> @isEol() and @row == @parentView._size.height - 1
 
   left: (count) ->
     if !count?
