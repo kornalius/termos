@@ -7,117 +7,101 @@
     function Plugin() {}
 
     Plugin.install = function(constructor) {
-      var i, k, key, len, name, op, pp, proto, ref, results1, value;
+      var i, key, len, name, pp, proto, ref, results1, v;
       proto = constructor.prototype;
       name = this.prototype.constructor.name;
-      if (proto.__plugins == null) {
-        proto.__plugins = [];
+      if (proto.$plugins == null) {
+        proto.$plugins = [];
       }
-      if (!_.find(proto.__plugins, 'name', name)) {
+      if (proto.$done == null) {
+        proto.$done = {};
+      }
+      if (proto.$callBehaviors == null) {
+        proto.$callBehaviors = function() {
+          var args, fn, i, j, key, len, len1, p, pi, ref, ref1, results;
+          key = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+          results = [];
+          ref = this.$plugins;
+          for (i = 0, len = ref.length; i < len; i++) {
+            pi = ref[i];
+            p = pi.data;
+            if (p.behaviors[key] != null) {
+              ref1 = p.behaviors[key];
+              for (j = 0, len1 = ref1.length; j < len1; j++) {
+                fn = ref1[j];
+                results.push(fn.apply(this, args));
+              }
+            }
+          }
+          if (results.length === 1) {
+            results = results[0];
+          }
+          return results;
+        };
+      }
+      if (proto.$getObjects == null) {
+        proto.$getObjects = function(key) {
+          var d, i, j, len, len1, p, pi, ref, ref1, results;
+          results = {};
+          ref = this.$plugins;
+          for (i = 0, len = ref.length; i < len; i++) {
+            pi = ref[i];
+            p = pi.data;
+            if (p.objects[key] != null) {
+              ref1 = p.objects[key];
+              for (j = 0, len1 = ref1.length; j < len1; j++) {
+                d = ref1[j];
+                _.deepExtend(results, d);
+              }
+            }
+          }
+          return results;
+        };
+      }
+      if (!_.find(proto.$plugins, 'name', name)) {
         pp = {
-          extended: [],
           behaviors: {},
           objects: {}
         };
-        proto.__plugins.push({
+        proto.$plugins.push({
           name: name,
           data: pp
         });
-        if (proto.__$callBehaviors__ == null) {
-          proto.__$callBehaviors__ = function() {
-            var args, fn, i, j, key, len, len1, p, pi, ref, ref1, results;
-            key = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
-            results = [];
-            ref = this.__plugins;
-            for (i = 0, len = ref.length; i < len; i++) {
-              pi = ref[i];
-              p = pi.data;
-              if (p.behaviors[key] != null) {
-                ref1 = p.behaviors[key];
-                for (j = 0, len1 = ref1.length; j < len1; j++) {
-                  fn = ref1[j];
-                  results.push(fn.apply(this, args));
-                }
-              }
-            }
-            return results;
-          };
-        }
-        if (proto.__$getObjects__ == null) {
-          proto.__$getObjects__ = function(key) {
-            var d, i, j, len, len1, p, pi, ref, ref1, results;
-            results = {};
-            ref = this.__plugins;
-            for (i = 0, len = ref.length; i < len; i++) {
-              pi = ref[i];
-              p = pi.data;
-              if (p.objects[key] != null) {
-                ref1 = p.objects[key];
-                for (j = 0, len1 = ref1.length; j < len1; j++) {
-                  d = ref1[j];
-                  _.deepExtend(results, d);
-                }
-              }
-            }
-            return results;
-          };
-        }
-        op = this.prototype;
-        ref = Object.getOwnPropertyNames(op);
+        ref = Object.getOwnPropertyNames(this.prototype);
         results1 = [];
         for (i = 0, len = ref.length; i < len; i++) {
           key = ref[i];
           if (!(indexOf.call(ExcludedPrototypeProperties, key) < 0)) {
             continue;
           }
-          value = op[key];
-          k = "__$" + key + "__";
-          if (_.isFunction(value) && _.isFunction(proto[key])) {
+          v = this.prototype[key];
+          if (_.isFunction(v)) {
             if (pp.behaviors[key] == null) {
               pp.behaviors[key] = [];
             }
-            if (proto[k] == null) {
-              pp.behaviors[key].push(proto[key]);
-              proto[key] = new Function("return this.__$callBehaviors__.apply(this, ['" + key + "'].concat(Array.from(arguments)));");
-              proto[k] = true;
+            if (proto.$done[key] == null) {
+              if (proto.hasOwnProperty(key)) {
+                pp.behaviors[key].push(proto[key]);
+              }
+              proto[key] = new Function("return this.$callBehaviors(['" + key + "'].concat(Array.from(arguments)));");
+              proto.$done[key] = true;
             }
-            pp.behaviors[key].unshift(value);
-            results1.push(pp.extended.push(key));
-          } else if (_.isPlainObject(value)) {
+            results1.push(pp.behaviors[key].unshift(v));
+          } else {
             if (pp.objects[key] == null) {
               pp.objects[key] = [];
             }
-            if (proto[k] == null) {
+            if (proto.$done[key] == null) {
               if (proto.hasOwnProperty(key)) {
-                debugger;
                 pp.objects[key].push(proto[key]);
               }
-              Object.defineProperty(proto, key, {
-                get: new Function("return this.__$getObjects__.apply(this, ['" + key + "']);")
-              });
-              proto[k] = true;
+              proto.$done[key] = true;
             }
-            pp.objects[key].push(value);
-            results1.push(pp.extended.push(key));
-          } else if (!Object.hasOwnProperty(proto, key)) {
-            proto[key] = value;
-            results1.push(pp.extended.push(key));
-          } else {
-            results1.push(void 0);
+            results1.push(pp.objects[key].push(v));
           }
         }
         return results1;
       }
-    };
-
-    Plugin.uninstall = function(constructor) {
-      var name, proto;
-      proto = constructor.prototype;
-      name = this.prototype.constructor.name;
-      if (proto.__plugins != null) {
-        delete proto.__plugins[name];
-      }
-      return _.remove(proto.__plugins_order, name);
     };
 
     return Plugin;

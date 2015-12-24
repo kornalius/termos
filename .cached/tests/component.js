@@ -120,11 +120,11 @@
 
   ComponentWithAttrObject.register();
 
-  c = document.createElement('my-component');
+  c = document.createElement('my-component', {
+    prop1: "HELLO"
+  });
 
   document.body.appendChild(c);
-
-  c.prop1 = "HELLO";
 
   c = document.createElement('component-with-attr-object', {
     fromAttr: {

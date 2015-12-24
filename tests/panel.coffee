@@ -9,7 +9,7 @@ class TestPanel extends PanelView
       margin: '4px'
 
   attrs:
-    title: 'SAMPLE TITLE'
+    label: 'SAMPLE TITLE'
 
   render: (content) ->
     super [

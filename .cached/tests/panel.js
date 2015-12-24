@@ -22,7 +22,7 @@
     };
 
     TestPanel.prototype.attrs = {
-      title: 'SAMPLE TITLE'
+      label: 'SAMPLE TITLE'
     };
 
     TestPanel.prototype.render = function(content) {

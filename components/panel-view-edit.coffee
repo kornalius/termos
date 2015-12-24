@@ -10,11 +10,9 @@ TOS.PanelViewEdit = class PanelViewEdit extends Plugin
   attrs:
     editMode: false
 
-  edit: ->
-    @attr('editmode', '')
+  edit: -> @attr('editmode', '')
 
-  isEdit: ->
-    @hasAttr('editmode')
+  isEdit: -> @hasAttr('editmode')
 
   toggleEdit: ->
     if @isEdit()
@@ -22,8 +20,6 @@ TOS.PanelViewEdit = class PanelViewEdit extends Plugin
     else
       @edit()
 
-  saveEdits: ->
-    @removeAttr('editmode')
+  saveEdits: -> @removeAttr('editmode')
 
-  cancelEdits: ->
-    @removeAttr('editmode')
+  cancelEdits: -> @removeAttr('editmode')

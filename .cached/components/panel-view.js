@@ -16,7 +16,7 @@
 
     PanelView.prototype.attrs = {
       icon: false,
-      title: false,
+      label: false,
       closable: false,
       resizable: false,
       moveable: false,
@@ -39,9 +39,9 @@
         ruler = true;
         cnt.push(i("#icon.mr1.h3.ic-" + (this.attr('icon'))));
       }
-      if (this.attr('title')) {
+      if (this.attr('label')) {
         ruler = true;
-        cnt.push(span('#title.h4.bold', this.attr('title')));
+        cnt.push(span('#label.h4.bold', this.attr('label')));
       }
       if (ruler) {
         cnt.push(hr());

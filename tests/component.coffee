@@ -74,9 +74,9 @@ ComponentWithAttrObject.register()
 
 
 # c = TOS.html.myComponent()
-c = document.createElement('my-component')
+c = document.createElement('my-component', prop1: "HELLO")
 document.body.appendChild c
-c.prop1 = "HELLO"
+# c.prop1 = "HELLO"
 
 
 c = document.createElement('component-with-attr-object', fromAttr: { text: 'Hello World', a: 10 } )

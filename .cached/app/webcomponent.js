@@ -693,7 +693,6 @@
       };
 
       WebComponent.prototype.invalidate = function() {
-        console.log("invalidate", this, _toRender);
         if (!_.contains(_toRender, this)) {
           return _toRender.push(this);
         }
@@ -703,42 +702,55 @@
         return _.contains(_toRender, this);
       };
 
+      WebComponent.prototype._specialget = function(fname, vname, isArray) {
+        var a, l, len1, len2, m, p, ref2, ref3, v;
+        if (isArray == null) {
+          isArray = false;
+        }
+        a = !isArray ? {} : [];
+        if (this.$plugins != null) {
+          ref2 = this.$plugins;
+          for (l = 0, len1 = ref2.length; l < len1; l++) {
+            p = ref2[l];
+            if (p.data.objects[vname] != null) {
+              ref3 = p.data.objects[vname];
+              for (m = 0, len2 = ref3.length; m < len2; m++) {
+                v = ref3[m];
+                if (v != null) {
+                  if (isArray) {
+                    _.extend(a, v);
+                  } else {
+                    _.deepExtend(a, v);
+                  }
+                }
+              }
+            }
+          }
+        }
+        if (this.hasOwnProperty(vname) != null) {
+          if (isArray) {
+            _.extend(a, this[vname]);
+          } else {
+            _.deepExtend(a, this[vname]);
+          }
+        }
+        return a;
+      };
+
       WebComponent.prototype.getCSS = function() {
-        var c, ref2;
-        c = {};
-        if (((ref2 = this.__proto__) != null ? ref2.getCSS : void 0) != null) {
-          _.deepExtend(c, this.__proto__.getCSS());
-        }
-        if (this.hasOwnProperty('css')) {
-          _.deepExtend(c, this.css);
-        }
-        return c;
+        return this._specialget('getCSS', 'css');
       };
 
       WebComponent.prototype.getProps = function() {
-        var p, ref2;
-        p = {};
-        if (((ref2 = this.__proto__) != null ? ref2.getProps : void 0) != null) {
-          _.extend(p, this.__proto__.getProps());
-        }
-        if (this.hasOwnProperty('props')) {
-          _.extend(p, this.props);
-        }
-        return p;
+        return this._specialget('getProps', 'props');
       };
 
       WebComponent.prototype.getAttrs = function() {
-        var a, key, r, ref2, value;
-        a = {};
-        if (((ref2 = this.__proto__) != null ? ref2.getAttrs : void 0) != null) {
-          _.extend(a, this.__proto__.getAttrs());
-        }
-        if (this.hasOwnProperty('attrs')) {
-          _.extend(a, this.attrs);
-        }
+        var key, r, ref2, value;
         r = {};
-        for (key in a) {
-          value = a[key];
+        ref2 = this._specialget('getAttrs', 'attrs');
+        for (key in ref2) {
+          value = ref2[key];
           if (!key.startsWith('on-')) {
             r[key] = value;
           }
@@ -747,40 +759,32 @@
       };
 
       WebComponent.prototype.getEvents = function() {
-        var e, key, r, ref2, ref3, value;
-        e = {};
-        if (((ref2 = this.__proto__) != null ? ref2.getEvents : void 0) != null) {
-          _.extend(e, this.__proto__.getEvents());
-        }
-        if (this.hasOwnProperty('events')) {
-          _.extend(e, this.events);
-        }
+        var key, r, ref2, value;
         r = {};
-        ref3 = this.getAttrs();
-        for (key in ref3) {
-          value = ref3[key];
+        ref2 = this._specialget('getAttrs', 'attrs');
+        for (key in ref2) {
+          value = ref2[key];
           if (key.startsWith('on-')) {
             r[key] = value;
           }
         }
-        for (key in e) {
-          value = e[key];
-          r[key] = value;
-        }
+        _.extend(r, this._specialget('getEvents', 'events'));
         return r;
       };
 
       WebComponent.prototype.getClasses = function() {
-        var c, ref2;
-        c = [];
-        if (((ref2 = this.__proto__) != null ? ref2.getClasses : void 0) != null) {
-          _.extend(c, this.__proto__.getClasses());
-        }
-        if (this.hasOwnProperty('classes')) {
-          _.extend(c, this.classes);
-        }
-        return c;
+        return this._specialget('getClasses', 'classes', true);
       };
+
+      WebComponent.prototype.css = {};
+
+      WebComponent.prototype.props = {};
+
+      WebComponent.prototype.attrs = {};
+
+      WebComponent.prototype.events = {};
+
+      WebComponent.prototype.classes = [];
 
       WebComponent.prototype.created = function() {};
 

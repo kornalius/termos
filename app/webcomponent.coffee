@@ -644,7 +644,7 @@ module.exports =
 
 
     invalidate: ->
-      console.log "invalidate", @, _toRender
+      # console.log "invalidate", @, _toRender
       if !_.contains(_toRender, @)
         _toRender.push(@)
 
@@ -653,84 +653,123 @@ module.exports =
       return _.contains(_toRender, @)
 
 
-    getCSS: ->
-      c = {}
-      # if @__$super__?.getCSS?
-        # _.deepExtend(c, @__$super__.getCSS())
-      if @__proto__?.getCSS?
-        _.deepExtend(c, @__proto__.getCSS())
-      if @hasOwnProperty('css')
-        _.deepExtend(c, @css)
-      return c
+    _specialget: (fname, vname, isArray = false) ->
+      a = if !isArray then {} else []
+      # if @__super__?[fname]?
+        # if isArray then _.extend(a, @__super__[fname]()) else _.deepExtend(a, @__super__[fname]())
+      if @$plugins?
+        for p in @$plugins when p.data.objects[vname]?
+          for v in p.data.objects[vname] when v?
+            if isArray then _.extend(a, v) else _.deepExtend(a, v)
+      if @hasOwnProperty(vname)?
+        if isArray then _.extend(a, @[vname]) else _.deepExtend(a, @[vname])
+      return a
 
 
-    getProps: ->
-      p = {}
-      # if @__$super__?.getProps?
-        # _.extend(p, @__$super__.getProps())
-      if @__proto__?.getProps?
-        _.extend(p, @__proto__.getProps())
-      if @hasOwnProperty('props')
-        _.extend(p, @props)
-      return p
+    getCSS: -> @_specialget 'getCSS', 'css'
+
+
+    getProps: -> @_specialget 'getProps', 'props'
 
 
     getAttrs: ->
-      a = {}
-      # if @__$super__?.getAttrs?
-      #   _.extend(a, @__$super__.getAttrs())
-      if @__proto__?.getAttrs?
-        _.extend(a, @__proto__.getAttrs())
-      if @hasOwnProperty('attrs')
-        _.extend(a, @attrs)
       r = {}
-      for key, value of a
+      for key, value of @_specialget 'getAttrs', 'attrs'
         if !key.startsWith('on-')
           r[key] = value
       return r
 
 
     getEvents: ->
-      e = {}
-      # if @__$super__?.getEvents?
-        # _.extend(e, @__$super__.getEvents())
-      if @__proto__?.getEvents?
-        _.extend(e, @__proto__.getEvents())
-      if @hasOwnProperty('events')
-        _.extend(e, @events)
       r = {}
-      for key, value of @getAttrs()
+      for key, value of @_specialget 'getAttrs', 'attrs'
         if key.startsWith('on-')
           r[key] = value
-      for key, value of e
-        r[key] = value
+      _.extend r, @_specialget 'getEvents', 'events'
       return r
 
 
-    getClasses: ->
-      c = []
-      # if @__$super__?.getClasses?
-        # _.extend(c, @__$super__.getClasses())
-      if @__proto__?.getClasses?
-        _.extend(c, @__proto__.getClasses())
-      if @hasOwnProperty('classes')
-        _.extend(c, @classes)
-      return c
+    getClasses: -> @_specialget 'getClasses', 'classes', true
 
 
-    # css: {}
+    # getCSS: ->
+    #   c = {}
+    #   # if @__$super__?.getCSS?
+    #     # _.deepExtend(c, @__$super__.getCSS())
+    #   if @__proto__?.getCSS?
+    #     _.deepExtend(c, @__proto__.getCSS())
+    #   if @hasOwnProperty('css')
+    #     _.deepExtend(c, @css)
+    #   return c
 
 
-    # props: {}
+    # getProps: ->
+    #   p = {}
+    #   # if @__$super__?.getProps?
+    #     # _.extend(p, @__$super__.getProps())
+    #   if @__proto__?.getProps?
+    #     _.extend(p, @__proto__.getProps())
+    #   if @hasOwnProperty('props')
+    #     _.extend(p, @props)
+    #   return p
 
 
-    # attrs: {}
+    # getAttrs: ->
+    #   a = {}
+    #   # if @__$super__?.getAttrs?
+    #   #   _.extend(a, @__$super__.getAttrs())
+    #   if @__proto__?.getAttrs?
+    #     _.extend(a, @__proto__.getAttrs())
+    #   if @hasOwnProperty('attrs')
+    #     _.extend(a, @attrs)
+    #   r = {}
+    #   for key, value of a
+    #     if !key.startsWith('on-')
+    #       r[key] = value
+    #   return r
 
 
-    # events: {}
+    # getEvents: ->
+    #   e = {}
+    #   # if @__$super__?.getEvents?
+    #     # _.extend(e, @__$super__.getEvents())
+    #   if @__proto__?.getEvents?
+    #     _.extend(e, @__proto__.getEvents())
+    #   if @hasOwnProperty('events')
+    #     _.extend(e, @events)
+    #   r = {}
+    #   for key, value of @getAttrs()
+    #     if key.startsWith('on-')
+    #       r[key] = value
+    #   for key, value of e
+    #     r[key] = value
+    #   return r
 
 
-    # classes: []
+    # getClasses: ->
+    #   c = []
+    #   # if @__$super__?.getClasses?
+    #     # _.extend(c, @__$super__.getClasses())
+    #   if @__proto__?.getClasses?
+    #     _.extend(c, @__proto__.getClasses())
+    #   if @hasOwnProperty('classes')
+    #     _.extend(c, @classes)
+    #   return c
+
+
+    css: {}
+
+
+    props: {}
+
+
+    attrs: {}
+
+
+    events: {}
+
+
+    classes: []
 
 
     created: ->
